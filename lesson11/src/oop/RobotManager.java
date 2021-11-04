@@ -2,12 +2,15 @@ package oop;
 
 public class RobotManager {
     public static void main(String[] args) {
-        RobotManager rm = new RobotManager();
-        Robot robot = new Robot();
+        Robot robot = new Robot(20, 20);
+        robot.forward(20);
+        robot.printCoordinates();
+        robot.setCourse(90);
+        robot.forward(20);
+        robot.printCoordinates();
         robot.setCourse(45);
-        System.out.println(robot.getCourse());
-        rm.changeCourse(robot);
-        System.out.println(robot.getCourse());
+        robot.forward(20);
+        robot.printCoordinates();
     }
 
     private void changeCourse(Robot robot) {
