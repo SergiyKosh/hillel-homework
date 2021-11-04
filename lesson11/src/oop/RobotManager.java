@@ -1,6 +1,7 @@
 package oop;
 
 import inheritance.RobotExt;
+import override_overload.RobotTotal;
 
 public class RobotManager {
     public static void main(String[] args) {
@@ -22,6 +23,15 @@ public class RobotManager {
 //        Robot robot2 = new Robot("Test Robot 2");
 //        System.out.println(robot1.toString());
 //        System.out.println(robot2.toString());
+        Robot robot = new RobotTotal(0, 0);
+
+        robot.forward(20);
+        robot.setCourse(90);
+        robot.forward(20);
+        robot.setCourse(90);
+        robot.forward(50);
+        // Напечатать координаты
+        robot.printCoordinates();
     }
 
     private void changeCourse(Robot robot) {

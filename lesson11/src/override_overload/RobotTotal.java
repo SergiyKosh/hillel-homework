@@ -27,13 +27,14 @@ public class RobotTotal extends Robot {
         super(x, y);
     }
 
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
     @Override
     public void forward(int distance) {
         super.forward(distance);
         totalDistance += distance;
-    }
-
-    public double getTotalDistance() {
-        return totalDistance;
+        System.out.println("RobotTotal");
     }
 }
