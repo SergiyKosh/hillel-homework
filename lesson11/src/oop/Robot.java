@@ -4,6 +4,11 @@ public class Robot {
     private double x = 0;
     private double y = 0;
     protected double course = 0;
+    private String name;
+
+    public Robot(String name) {
+        this.name = name;
+    }
 
     public void forward(int distance) {
         x = x + distance * Math.cos(course / 180 * Math.PI);
@@ -33,5 +38,10 @@ public class Robot {
 
     public void setCourse(double course) {
         this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "name: " + name;
     }
 }
