@@ -3,7 +3,8 @@ package oop;
 public class Robot {
     private double x = 0;
     private double y = 0;
-    private double course = 0;
+    protected double course = 0;
+
     public void forward(int distance) {
         x = x + distance * Math.cos(course / 180 * Math.PI);
         y = y + distance * Math.sin(course / 180 * Math.PI);
