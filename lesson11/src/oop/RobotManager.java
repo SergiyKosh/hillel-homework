@@ -18,10 +18,10 @@ public class RobotManager {
 //        robot.printCoordinates();
 //        robot.back(10);
 //        robot.printCoordinates();
-        Robot robot1 = new Robot("Test Robot 1");
-        Robot robot2 = new Robot("Test Robot 2");
-        System.out.println(robot1.toString());
-        System.out.println(robot2.toString());
+//        Robot robot1 = new Robot("Test Robot 1");
+//        Robot robot2 = new Robot("Test Robot 2");
+//        System.out.println(robot1.toString());
+//        System.out.println(robot2.toString());
     }
 
     private void changeCourse(Robot robot) {
