@@ -12,7 +12,10 @@ public class TestClass {
 //    public TestClass() {
 //        value = 100;
 //    }
-    public final String getFinalName() {
+//    public final String getFinalName() {
+//        return "Final name for TestClass";
+//    }
+    public String getFinalName() {
         return "Final name for TestClass";
     }
 }
