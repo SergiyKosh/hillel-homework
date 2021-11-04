@@ -23,15 +23,17 @@ public class RobotManager {
 //        Robot robot2 = new Robot("Test Robot 2");
 //        System.out.println(robot1.toString());
 //        System.out.println(robot2.toString());
+//        Robot robot = new RobotTotal(0, 0);
+//
+//        robot.forward(20);
+//        robot.setCourse(90);
+//        robot.forward(20);
+//        robot.setCourse(90);
+//        robot.forward(50);
+//        // Напечатать координаты
+//        robot.printCoordinates();
         Robot robot = new RobotTotal(0, 0);
-
-        robot.forward(20);
-        robot.setCourse(90);
-        robot.forward(20);
-        robot.setCourse(90);
-        robot.forward(50);
-        // Напечатать координаты
-        robot.printCoordinates();
+        System.out.println(robot.getClass().getName());
     }
 
     private void changeCourse(Robot robot) {
