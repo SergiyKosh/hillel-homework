@@ -5,7 +5,8 @@ public class SecondEmpty {
         int counter;
         ;
         ;
-        ; ;
+        ;
+        ;
         counter = 99;
         System.out.println(counter);
     }
