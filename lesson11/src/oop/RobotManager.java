@@ -60,7 +60,9 @@ public class RobotManager {
 //            rf.setVisible(true);
 //        }
     public static void main(String[] args) {
-        Robot[] rbts;
-        rbts = new Robot[10];
+        Robot[] rbts = new Robot[10];
+        for(int i=0; i<10; i++) {
+            System.out.println(rbts[i]);
+        }
     }
 }
