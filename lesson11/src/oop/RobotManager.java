@@ -1,5 +1,6 @@
 package oop;
 
+import interfaces.SimpleRobotListener;
 import robot_visual.RobotFrame;
 
 import javax.swing.JFrame;
@@ -59,13 +60,29 @@ public class RobotManager {
 //            rf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //            rf.setVisible(true);
 //        }
+//    public static void main(String[] args) {
+//        Robot[] rbts = new Robot[10];
+//        for (int i = 0; i < rbts.length; i++) {
+//            rbts[i] = new Robot(i * 10, i * 10);
+//        }
+//        for (int i = 0; i < rbts.length; i++) {
+//            rbts[i].printCoordinates();
+//        }
+//    }
     public static void main(String[] args) {
-        Robot[] rbts = new Robot[10];
-        for (int i = 0; i < rbts.length; i++) {
-            rbts[i] = new Robot(i * 10, i * 10);
+        final int COUNT = 4;
+        final int SIDE = 100;
+
+        Robot robot = new Robot(200, 50);
+        SimpleRobotListener srl = new SimpleRobotListener();
+        robot.setListener(srl);
+        for (int i = 0; i < COUNT; i++) {
+            robot.forward(SIDE);
+            robot.setCourse(robot.getCourse() + 360 / COUNT);
         }
-        for (int i = 0; i < rbts.length; i++) {
-            rbts[i].printCoordinates();
-        }
+
+        RobotFrame rf = new RobotFrame(robot);
+        rf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        rf.setVisible(true);
     }
 }
