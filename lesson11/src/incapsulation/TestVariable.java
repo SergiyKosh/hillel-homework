@@ -3,8 +3,8 @@ package incapsulation;
 public class TestVariable {
     public static void main(String[] args) {
         double first = 99;
-        // Создаем экземпляр класса
         TestVariable tv = new TestVariable();
+
         System.out.println("Main method:" + first);
         tv.testMethod(first);
         System.out.println("Main method:" + first);

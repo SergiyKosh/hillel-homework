@@ -6,7 +6,7 @@ public class LoopDoTwo {
         int i = 0;
         do {
             System.out.print("*");
-        } while (++i < count);   // Вот здесь наш оператор ++
+        } while (++i < count);
         System.out.println();
     }
 }

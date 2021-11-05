@@ -2,7 +2,7 @@ package operations;
 
 public class SwitchSecond {
     public static void main(String[] args) {
-        int number = 50;   // Проверяемое число
+        int number = 50;
         switch(number) {
             case 1: System.out.println("One");
             case 2: System.out.println("Two");

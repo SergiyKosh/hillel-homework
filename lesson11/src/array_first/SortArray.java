@@ -16,6 +16,7 @@ public class SortArray {
                 }
             }
         }
+
         for (int i = 0; i < sample.length; i++) {
             System.out.println(sample[i]);
         }

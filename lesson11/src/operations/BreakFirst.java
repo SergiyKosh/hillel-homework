@@ -2,18 +2,18 @@ package operations;
 
 public class BreakFirst {
     public static void main(String[] arg) {
-        int number = 1;   // Начальное число
-        int sum = 0;      // Переменная для хранения суммы
-        int count = 0;    // Количество чисел - в начале ни одного
-        int max = 300;    // Предел суммы
+        int number = 1;
+        int sum = 0;
+        int count = 0;
+        int max = 300;
         for (; ; ) {
-            sum += number;    // Увеличиваем сумму
-            if (sum > max) {   // Проверяем сумму - если больше
-                break;            // То эта точка является точкой выхода
+            sum += number;
+            if (sum > max) {
+                break;
             } else {
-                count++;          // А здесь просто увеличиваем количество чисел
+                count++;
             }
-            number += 10;    // Увеличиваем число на 10
+            number += 10;
         }
         System.out.println("Count=" + count);
     }

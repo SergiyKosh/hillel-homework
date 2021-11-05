@@ -8,6 +8,7 @@ public class SecondEmpty {
         ;
         ;
         counter = 99;
+
         System.out.println(counter);
     }
 }

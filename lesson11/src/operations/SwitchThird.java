@@ -2,8 +2,8 @@ package operations;
 
 public class SwitchThird {
     public static void main(String[] args) {
-        int number= 5;
-        switch(number) {
+        int number = 5;
+        switch (number) {
             case 1:
                 System.out.println("One");
                 break;

@@ -9,6 +9,7 @@ public class LoopWhileFirst {
             System.out.print("#");
             i++;
         }
+
         System.out.println();
     }
 }

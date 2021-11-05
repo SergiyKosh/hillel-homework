@@ -211,30 +211,25 @@ public class Robot {
         this.y = y;
     }
 
-    // Метод для установки реального слушателя.
     public void setListener(RobotListener listener) {
         this.listener = listener;
     }
 
     public void forward(int distance) {
-        // Вызываем слушателя (если он установлен) в начале
         if(listener !=null) {
             listener.startMove(x, y);
         }
-        // Запоминаем координаты робота перед перемещением
+
         final double xOld = x;
         final double yOld = y;
-        // Меняем координаты
+
         x += distance * Math.cos(course / 180 * Math.PI);
         y += distance * Math.sin(course / 180 * Math.PI);
 
-        // Вызываем слушателя (если он установлен) после остановки
         if(listener !=null) {
             listener.endMove(x, y);
         }
 
-        // Запоминаем координаты пройденного пути в списке
-        // Класс List позволяет добавить объект и хранить его
         lines.add(new RobotLine(xOld, yOld, x, y));
     }
 
