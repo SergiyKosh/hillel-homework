@@ -1,6 +1,6 @@
 package entity;
 
-public class Dog {
+public abstract class Dog {
     protected String name;
 
     public Dog(String name)
@@ -17,4 +17,6 @@ public class Dog {
     {
         return "Woof";
     }
+
+    public abstract int avgBreedWeight();
 }

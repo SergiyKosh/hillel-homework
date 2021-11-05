@@ -1,23 +1,21 @@
 package entity;
 
-public class Labrador extends Dog
-{
+public class Labrador extends Dog {
     private String color;
-    private static int breedWeight = 75;
+    private int breedWeight = 75;
 
-    public Labrador(String name, String color)
-    {
+    public Labrador(String name, String color) {
         super(name);
         this.color = color;
     }
 
-    public String speak()
-    {
+    public String speak() {
         return "WOOF";
     }
 
-    public static int avgBreedWeight()
-    {
+
+    @Override
+    public int avgBreedWeight() {
         return breedWeight;
     }
 }
