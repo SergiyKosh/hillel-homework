@@ -34,6 +34,20 @@ public class ObjectQueue {
         return size;
     }
 
+    public Object get(int index) {
+        if (size == 0 || index >= size || index < 0) {
+            return null;
+        }
+        ObjectBox current = head;
+        int pos = 0;
+        while (pos < index) {
+            current = current.getNext();
+            pos++;
+        }
+        Object obj = current.getObject();
+        return obj;
+    }
+
     private class ObjectBox {
         private Object object;
         private ObjectBox next;
