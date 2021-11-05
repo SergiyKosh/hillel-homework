@@ -8,6 +8,23 @@ public class ForEachExample {
 //            System.out.println(x);
 //        }
 
+//        int[] sample = new int[5];
+//
+//        System.out.println("До foreach");
+//
+//        for (int t : sample) {
+//            System.out.println(t);
+//        }
+//
+//        for (int t : sample) {
+//            t = 99;
+//        }
+//
+//        System.out.println("После foreach");
+//
+//        for (int t : sample) {
+//            System.out.println(t);
+//        }
         int[] sample = new int[5];
 
         System.out.println("До foreach");
@@ -16,12 +33,11 @@ public class ForEachExample {
             System.out.println(t);
         }
 
-        for (int t : sample) {
-            t = 99;
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] = 99;
         }
 
         System.out.println("После foreach");
-
         for (int t : sample) {
             System.out.println(t);
         }
