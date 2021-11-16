@@ -20,14 +20,14 @@ public class Logic {
                 .toArray()[0];
     }
 
-    public LinkedList<String> fillTheListWithRandomValues(List<String> listLink, int size, int index, int counter) {
+    public LinkedList<String> fillTheListWithRandomValues(List<String> listLink, int size, int counter) {
         if (listLink.contains(null)) {
-            index = getRandomIndex(size);
+            int index = getRandomIndex(size);
             if (listLink.get(index) == null) {
                 listLink.set(index, "li" + counter);
                 counter++;
             }
-            return fillTheListWithRandomValues(listLink, size, index, counter);
+            return fillTheListWithRandomValues(listLink, size, counter);
         }
         return (LinkedList<String>) listLink;
     }

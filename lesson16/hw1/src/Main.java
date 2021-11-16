@@ -9,7 +9,7 @@ public class Main {
         Logic logic = new Logic();
         ArrayList<String> listArray = new ArrayList<>(List.of("ar0", "ar1", "ar2", "ar3", "ar4", "ar5", "ar6", "ar7", "ar8", "ar9"));
         LinkedList<String> listLink = logic.initLinkedList(new LinkedList<>(), 10);
-        listLink = logic.fillTheListWithRandomValues(listLink, listLink.size(), 0, 0);
+        listLink = logic.fillTheListWithRandomValues(listLink, listLink.size(), 0);
 
         System.out.print("ArrayList: ");
         listArray.forEach(x -> System.out.print(x + " "));
