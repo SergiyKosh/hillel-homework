@@ -1,11 +1,14 @@
 package generator;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MyNumGenerator {
-    private int numberOfElements;
-    private int minNumber;
-    private int maxNumber;
+    private final int numberOfElements;
+    private final int minNumber;
+    private final int maxNumber;
 
     public MyNumGenerator(int numberOfElements, int minNumber, int maxNumber) {
         this.numberOfElements = numberOfElements;
@@ -13,38 +16,27 @@ public class MyNumGenerator {
         this.maxNumber = maxNumber;
     }
 
-    public int getNumberOfElements() {
-        return numberOfElements;
-    }
-
-    public int getMinNumber() {
-        return minNumber;
-    }
-
-    public int getMaxNumber() {
-        return maxNumber;
-    }
-
-    public List<Integer> generateList(int numberOfElements, int minNumber, int maxNumber) {
-        return new Random()
-                .ints(minNumber, maxNumber)
+    public List<Integer> generateList() {
+        return IntStream
+                .range(minNumber, maxNumber)
                 .limit(numberOfElements)
-                .collect(ArrayList::new, List::add, Collection::addAll);
+                .map(num -> ThreadLocalRandom.current().nextInt(minNumber, maxNumber))
+                .boxed()
+                .collect(Collectors.toList());
     }
 
-    public Set<Integer> generateSet(int numberOfElements, int minNumber, int maxNumber) {
+    public Set<Integer> generateSet() {
         if (maxNumber - minNumber < numberOfElements) {
             throw new UnsupportedOperationException();
         }
 
-        List<Integer> randomNumbers = new ArrayList<>();
+        Set<Integer> set = new LinkedHashSet<>();
 
-        for (int i = minNumber; i < maxNumber; i++) {
-            randomNumbers.add(i);
+        while (set.size() < numberOfElements) {
+            set.add(ThreadLocalRandom.current().nextInt(minNumber, maxNumber));
         }
 
-        Collections.shuffle(randomNumbers);
-
-        return new LinkedHashSet<>(randomNumbers);
+        return set;
     }
 }
+
