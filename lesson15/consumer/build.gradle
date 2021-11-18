@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
+group 'ua.kosheliuk'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -13,7 +13,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'com.rabbitmq:amqp-client:5.14.0'
-    implementation 'org.slf4j:slf4j-api:2.0.0-alpha5'
 }
 
 test {
@@ -21,8 +20,6 @@ test {
 }
 
 jar {
-    manifest.attributes("Main-Class" : "Producer")
-    from configurations.runtimeClasspath.collect {
-        it.isDirectory() ? it : zipTree(it)
-    }
+    manifest.attributes("Main-Class" : "Consumer")
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
