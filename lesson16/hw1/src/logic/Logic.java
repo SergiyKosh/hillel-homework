@@ -1,16 +1,13 @@
 package logic;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
+import java.util.*;
 
 public class Logic {
-    public LinkedList<String> initLinkedList(List<String> listLink, int size) {
+    public List<String> initLinkedList(List<String> listLink, int size) {
         for (int i = 0; i < size; i++) {
             listLink.add(null);
         }
-        return (LinkedList<String>) listLink;
+        return listLink;
     }
 
     private int getRandomIndex(int size) {
@@ -20,7 +17,7 @@ public class Logic {
                 .toArray()[0];
     }
 
-    public LinkedList<String> fillTheListWithRandomValues(List<String> listLink, int size, int counter) {
+    public List<String> fillTheListWithRandomValues(List<String> listLink, int size, int counter) {
         if (listLink.contains(null)) {
             int index = getRandomIndex(size);
             if (listLink.get(index) == null) {
@@ -29,36 +26,38 @@ public class Logic {
             }
             return fillTheListWithRandomValues(listLink, size, counter);
         }
-        return (LinkedList<String>) listLink;
+        return listLink;
     }
 
-    public LinkedList<String> addElementByThirdTask(List<String> listLink, List<String> listArray, int size, ListIterator listIterator, int counter) {
-        if (listIterator.hasPrevious()) {
-            listLink.add(counter, (String) listIterator.previous());
-            counter += 2;
-            return addElementByThirdTask(listLink, listArray, listArray.size(), listIterator, counter);
-        }
-        return (LinkedList<String>) listLink;
-    }
-
-    public LinkedList<String> addArrayListByFourthTask(ListIterator listIterator, List<String> lst, int counter) {
-        if (listIterator.hasPrevious()) {
-            if (lst.get(counter) == null)
-                lst.set(counter, (String) listIterator.previous());
-            counter++;
-            return addArrayListByFourthTask(listIterator, lst, counter);
-        }
-        return (LinkedList<String>) lst;
-    }
-
-    public LinkedList<String> addLinkedListByFourthTask(ListIterator listIterator, List<String> lst, int counter) {
-        if (listIterator.hasNext()) {
-            if (counter % 3 != 0) {
-                lst.set(counter, (String) listIterator.next());
+    public List<String> addElementByThirdTask(List<String> lst, ListIterator<String> itArr, ListIterator<String> itLink) {
+        while (itArr.hasPrevious() || itLink.hasNext()) {
+            if (lst.size() % 2 == 0) {
+                lst.listIterator().add(itArr.previous());
+            } else {
+                lst.listIterator().add(itLink.next());
             }
-            counter++;
-            return addLinkedListByFourthTask(listIterator, lst, counter);
         }
-        return (LinkedList<String>) lst;
+        lst = reverseList(lst.listIterator(), new LinkedList<>());
+        return lst;
+    }
+
+    private List<String> reverseList(ListIterator<String> it, List<String> lst) {
+        while (it.hasNext()) {
+            lst.listIterator().add(it.next());
+        }
+
+        return lst;
+    }
+
+    public List<String> addByFourthTask(ListIterator<String> itLink, List<String> lst, ListIterator<String> itArr) {
+        while (itArr.hasPrevious() || itLink.hasNext()) {
+            if (lst.size() % 3 != 0 && itLink.hasNext()) {
+                lst.listIterator().add(itLink.next());
+            } else {
+                lst.listIterator().add(itArr.previous());
+            }
+        }
+        lst = reverseList(lst.listIterator(), new LinkedList<>());
+        return lst;
     }
 }
