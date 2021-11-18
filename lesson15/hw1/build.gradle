@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'ua.kosheliuk'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.rabbitmq:amqp-client:5.14.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ua.kosheliuk.src.main.java.Producer'
+    }
+}
