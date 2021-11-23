@@ -58,6 +58,7 @@ class MyTranslator {
         words.put("`", "`");
         words.put("~", "~");
         words.put("ʼ", "ʼ");
+        words.put("_", "_");
     }
 
     private String getWordFromPhrase(String key) {
@@ -106,39 +107,39 @@ class MyTranslator {
         }
     }
 
-    String translate(List<String> phrase, int i) {
-        if (i < phrase.size()) {
-            String key = getWordFromPhrase(phrase.get(i));
+    String translate(List<String> phrase, int counter) {
+        if (counter < phrase.size()) {
+            String key = getWordFromPhrase(phrase.get(counter));
 
             if (key.equals("Optional.empty")) {
-                if (!Character.isLetter(phrase.get(i).charAt(0)) && phrase.get(i).length() > 1) {
-                    phrase.set(i, phrase.get(i).charAt(0) + menu(phrase.get(i)));
-                } else if (!Character.isLetter(phrase.get(i).charAt(phrase.get(i).length() - 1))
-                        && phrase.get(i).length() > 1) {
-                    phrase.set(i, menu(phrase.get(i)) + phrase.get(i).charAt(phrase.get(i).length() - 1));
+                if (!Character.isLetter(phrase.get(counter).charAt(0)) && phrase.get(counter).length() > 1) {
+                    phrase.set(counter, phrase.get(counter).charAt(0) + menu(phrase.get(counter)));
+                } else if (!Character.isLetter(phrase.get(counter).charAt(phrase.get(counter).length() - 1))
+                        && phrase.get(counter).length() > 1) {
+                    phrase.set(counter, menu(phrase.get(counter)) + phrase.get(counter).charAt(phrase.get(counter).length() - 1));
                 } else {
-                    phrase.set(i, menu(phrase.get(i)));
+                    phrase.set(counter, menu(phrase.get(counter)));
                 }
             } else {
-                if (!Character.isLetter(phrase.get(i).charAt(0)) && phrase.get(i).length() > 1) {
-                    phrase.set(i, phrase.get(i).charAt(0) + key
+                if (!Character.isLetter(phrase.get(counter).charAt(0)) && phrase.get(counter).length() > 1) {
+                    phrase.set(counter, phrase.get(counter).charAt(0) + key
                             .split("=")[1]
                             .replaceAll("]", ""));
-                } else if (!Character.isLetter(phrase.get(i).charAt(phrase.get(i).length() - 1))
-                        && phrase.get(i).length() > 1) {
-                    phrase.set(i, key
+                } else if (!Character.isLetter(phrase.get(counter).charAt(phrase.get(counter).length() - 1))
+                        && phrase.get(counter).length() > 1) {
+                    phrase.set(counter, key
                             .split("=")[1]
                             .replaceAll("]", "")
-                            + phrase.get(i)
-                            .charAt(phrase.get(i).length() - 1));
+                            + phrase.get(counter)
+                            .charAt(phrase.get(counter).length() - 1));
                 } else {
-                    phrase.set(i, key
+                    phrase.set(counter, key
                             .split("=")[1]
                             .replaceAll("]", ""));
                 }
             }
-            i++;
-            return translate(phrase, i);
+            counter++;
+            return translate(phrase, counter);
         }
         return getPhrase(phrase);
     }
