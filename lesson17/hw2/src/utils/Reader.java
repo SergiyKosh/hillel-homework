@@ -15,14 +15,17 @@ public class Reader {
 
         Files.lines(Paths.get("src/resources/customers.txt"))
                 .forEach(x -> {
-                    Customer customer = new Customer(x.split(" ")[0],
-                            new Product(x.split(" ")[1], Integer.parseInt(x.split(" ")[2])));
-                    addToMap(customer);
-                });
+                            if (!x.equals("")) {
+                                String[] line = x.split(" ");
+                                Customer customer = new Customer(line[0], new Product(line[1], Integer.parseInt(line[2])));
+                                putToMap(customer);
+                            }
+                        }
+                );
         return map;
     }
 
-    private void addToMap(Customer customer) {
+    private void putToMap(Customer customer) {
         Product product = customer.getProduct();
         TreeMap<String, TreeMap<String, Integer>> customers = customer.getCustomers();
         TreeMap<String, Integer> products = customer.getProducts();
