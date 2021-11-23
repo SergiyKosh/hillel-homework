@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,10 @@ public class Product {
     private TreeMap<String, Integer> products;
 
     public Product(String productName, Integer count) {
-        this.productName = productName != null ? productName : "NULL";
-        this.count = count != null ? count : 0;
+        Objects.requireNonNull(productName);
+        Objects.requireNonNull(count);
+        this.productName = productName;
+        this.count = count;
         products = new TreeMap<>() {
             @Override
             public String toString() {

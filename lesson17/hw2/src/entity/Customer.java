@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,10 @@ public class Customer {
     }
 
     public Customer(String name, Product product) {
-        this.name = name != null ? name : "NULL";
-        this.product = product != null ? product : new Product("NULL", 0);
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(product);
+        this.name = name;
+        this.product = product;
     }
 
     public TreeMap<String, TreeMap<String, Integer>> getCustomers() {
