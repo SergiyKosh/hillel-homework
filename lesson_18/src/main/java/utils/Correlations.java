@@ -8,14 +8,37 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class OperationsWithEvents {
+public class Correlations extends HashMap {
     private Parser parser = new Parser();
-    List<Journal> journal = parser.getJournal();
+    private List<Journal> journal = parser.getJournal();
 
-    public OperationsWithEvents() throws IOException, URISyntaxException {
+    public Correlations() throws IOException, URISyntaxException {
     }
 
-    public List<String> getAllEvents() {
+    public Double phi(List<Integer> table) {
+        return (table.get(3) * table.get(0) - table.get(2) * table.get(1)) /
+                Math.sqrt((table.get(2) + table.get(3)) *
+                        (table.get(0) + table.get(1)) *
+                        (table.get(1) + table.get(3)) *
+                        (table.get(0) + table.get(2)));
+    }
+
+    public List<Integer> tableFor(String event, List<Journal> events) {
+        List<Integer> matrix = new ArrayList<>(List.of(0, 0, 0, 0));
+        events.forEach(x -> {
+            int index = 0;
+            if (x.getEvents().contains(event)) {
+                index += 1;
+            }
+            if (x.isSquirrel()) {
+                index += 2;
+            }
+            matrix.set(index, matrix.get(index) + 1);
+        });
+        return matrix;
+    }
+
+    private List<String> getAllEvents() {
         return journal.stream()
                 .map(Journal::getEvents)
                 .flatMap(Collection::stream)
@@ -23,15 +46,13 @@ public class OperationsWithEvents {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, Double> getCorrelations() {
-        return getAllEvents().stream().collect(Collectors.toMap(Function.identity(),
-                event -> {
-                    Phi phi = new Phi();
-                    return phi.phi(phi.tableFor(event, journal));
-                }));
+    public Map<String, Double> getCorrelations() {
+        return getAllEvents().stream()
+                .collect(Collectors.toMap(Function.identity(),
+                        event -> phi(tableFor(event, journal))));
     }
 
-    private Map<String, Double> getFinalCorrelations() {
+    public Map<String, Double> getFinalCorrelations() {
         return getCorrelations().entrySet().stream()
                 .filter(x -> x.getValue() > 0.1 || x.getValue() < -0.1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -55,21 +76,11 @@ public class OperationsWithEvents {
         String minCorr = new ArrayList<>(getMinCorrelation().keySet()).get(0);
         String maxCorr = new ArrayList<>(getMaxCorrelation().keySet()).get(0);
         return journal.stream()
-                .filter(x -> x.getEvents().contains(maxCorr) && !x.getEvents().contains(minCorr))
-                .map(x -> {
-                    List<String> lst = new ArrayList<>(x.getEvents());
-                    lst.add(maxCorr + "-" + minCorr);
-                    return lst;
+                .peek(x -> {
+                    if (x.getEvents().contains(maxCorr) && !x.getEvents().contains(minCorr)) {
+                        x.getEvents().add(maxCorr + "-" + minCorr);
+                    }
                 })
-                .map(x -> {
-                    int index = journal.indexOf(journal.stream()
-                            .filter(y -> y.getEvents().contains(maxCorr) && !y.getEvents().contains(minCorr) && !y.getEvents().contains(maxCorr + "-" + minCorr))
-                            .findFirst()
-                            .orElseThrow(RuntimeException::new));
-                    journal.set(index, new Journal(x, journal.get(index).isSquirrel()));
-                    return journal;
-                })
-                .flatMap(Collection::stream) //ошибка где-то здесь
                 .collect(Collectors.toList());
     }
 }
