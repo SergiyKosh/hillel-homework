@@ -38,7 +38,7 @@ public class Correlations extends HashMap {
         return matrix;
     }
 
-    private List<String> getAllEvents() {
+    public List<String> getAllEvents() {
         return journal.stream()
                 .map(Journal::getEvents)
                 .flatMap(Collection::stream)
