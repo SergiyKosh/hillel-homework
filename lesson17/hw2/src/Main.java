@@ -1,13 +1,18 @@
-import entity.Customer;
 import utils.Reader;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Reader reader = new Reader();
-        Customer cust = new Customer();
-        cust.getCustomers().putAll(reader.loadCustomersList());
-        System.out.println(cust.getCustomers());
+        new Reader().loadCustomersList()
+                .forEach((k, v) ->
+                        System.out.printf(
+                                "%s\n%s\n",
+                                k,
+                                v.entrySet().stream()
+                                        .map(x -> x.getKey() + " " + x.getValue() + "\n")
+                                        .collect(Collectors.joining())
+                        ));
     }
 }

@@ -2,7 +2,6 @@ package entity;
 
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class Product {
     private String productName;
@@ -14,19 +13,8 @@ public class Product {
         Objects.requireNonNull(count);
         this.productName = productName;
         this.count = count;
-        products = new TreeMap<>() {
-            @Override
-            public String toString() {
-                return entrySet().stream()
-                        .map(x -> x.getKey() + " " + x.getValue() + "\n")
-                        .collect(Collectors.joining());
-            }
-        };
+        products = new TreeMap<>();
         products.put(this.productName, this.count);
-    }
-
-    TreeMap<String, Integer> getProducts() {
-        return products;
     }
 
     public String getProductName() {
