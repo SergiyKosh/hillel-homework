@@ -21,6 +21,7 @@ class CorrelationsTest {
     private static Map<String, Double> minCorrelation;
     private static Map<String, Double> maxCorrelation;
     private static Map<String, Double> finalCorrelations;
+    private static List<Integer> table;
 
     @BeforeAll
     static void setUp() throws IOException, URISyntaxException {
@@ -32,7 +33,12 @@ class CorrelationsTest {
         minCorrelation = correlations.getMinCorrelation();
         maxCorrelation = correlations.getMaxCorrelation();
         finalCorrelations = correlations.getFinalCorrelations();
+        table = List.of(79, 6, 4, 1);
+    }
 
+    @Test
+    void testJournalNotNull() {
+        assertNotNull(journal);
     }
 
     @Test
@@ -46,12 +52,18 @@ class CorrelationsTest {
     }
 
     @Test
+    void isTableForCorrect() {
+        assertEquals(table, correlations.tableFor("читал", journal));
+    }
+
+    @Test
+    void isPhiCorrect() {
+        assertEquals(0.11, correlations.phi(table), 1e-3);
+    }
+
+    @Test
     void isContainsRandomEventInTheAllEvents() {
-        int randomIndex = IntStream
-                .range(0, allEvents.size())
-                .limit(1)
-                .map(num -> ThreadLocalRandom.current().nextInt(0, allEvents.size()))
-                .toArray()[0];
+        int randomIndex = ThreadLocalRandom.current().nextInt(0, allEvents.size());
         assertTrue(allCorrelations.containsKey(allEvents.get(randomIndex)));
     }
 
@@ -73,19 +85,23 @@ class CorrelationsTest {
 
     @Test
     void isTheMinimumCorrelationCorrect() {
+        assertEquals(1, minCorrelation.size());
         assertTrue(minCorrelation.entrySet().stream().anyMatch(x -> x.getValue().equals(-0.3805211953235953)));
         assertTrue(minCorrelation.entrySet().stream().anyMatch(x -> x.getKey().equals("чистил зубы")));
+        assertEquals(-0.38, minCorrelation.get("чистил зубы"), 1e-3);
     }
 
     @Test
     void isTheMaximumCorrelationCorrect() {
+        assertEquals(1, maxCorrelation.size());
         assertTrue(maxCorrelation.entrySet().stream().anyMatch(x -> x.getValue().equals(0.59026798116852)));
         assertTrue(maxCorrelation.entrySet().stream().anyMatch(x -> x.getKey().equals("ел арахис")));
+        assertEquals(0.59, maxCorrelation.get("ел арахис"), 1e-3);
     }
 
     @Test
     void isTheFinalCorrelationValueCorrect() {
         List<Journal> foundedCorrelations = correlations.getFoundedCorrelations();
-        assertEquals(1.000000, correlations.phi(correlations.tableFor("ел арахис-чистил зубы", foundedCorrelations)));
+        assertEquals(1.0, correlations.phi(correlations.tableFor("ел арахис-чистил зубы", foundedCorrelations)), 1e-5);
     }
 }
