@@ -1,12 +1,11 @@
-package entity;
+package org.hw.entity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 public class MyPhoneBook {
-    private List<PhoneRecord> phoneNumbers;
+    private final List<PhoneRecord> phoneNumbers;
 
     public MyPhoneBook() {
         this.phoneNumbers = new ArrayList<>();
@@ -34,8 +33,8 @@ public class MyPhoneBook {
     }
 
     private class PhoneRecord {
-        private String name;
-        private String phone;
+        private final String name;
+        private final String phone;
 
         PhoneRecord(String name, String phone) {
             this.name = name;
@@ -52,7 +51,7 @@ public class MyPhoneBook {
 
         @Override
         public String toString() {
-            return String.format("%-10s:%-10s", name, phone);
+            return String.format("%-10s:%10s", name, phone);
         }
     }
 }
