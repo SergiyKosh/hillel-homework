@@ -1,6 +1,4 @@
 import entity.Journal;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Correlations;
@@ -18,59 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CorrelationsTest {
     private Correlations correlations;
-    private String event;
     private List<Journal> journal;
-    private List<Integer> expectedTable;
-    private List<String> events;
-    private Map<String, Double> allCorrelations;
-    private int expectedSize;
-    private String foundedEvent;
 
-    void setUp() throws IOException, URISyntaxException {
+    @BeforeEach
+    void initTable() throws IOException, URISyntaxException {
         correlations = new Correlations();
         journal = new Parser().getJournal();
     }
 
-    @BeforeEach
-    void initTable() throws IOException, URISyntaxException {
-        setUp();
-        expectedTable = List.of(79, 6, 4, 1);
-        event = "читал";
-    }
-
     @Test
-    void testTableFor() throws IOException, URISyntaxException {
-        //given
-        initTable();
-        //when
-        List<Integer> resultTable = correlations.tableFor(event, journal);
-        //then
-        assertEquals(expectedTable, resultTable);
-    }
-
-    @Test
-    void testPhi() throws IOException, URISyntaxException {
-        //given
-        initTable();
-        double expected = 0.11;
-        //when
-        double result = correlations.phi(expectedTable);
-        //then
-        assertEquals(expected, result, 1e-3);
-    }
-
-    @AfterEach
-
-    @BeforeEach
-    void initEventsList() throws IOException, URISyntaxException {
-        setUp();
-        events = correlations.getAllEvents();
-    }
-
-    @Test
-    void testGetAllEvents() throws IOException, URISyntaxException {
-        //given
-        initEventsList();
+    void testGetAllEvents() {
+        List<String> events = correlations.getAllEvents();
         //when
         boolean areAllElementsContainsInTheJournal = events.stream()
                 .allMatch(x -> journal.stream()
@@ -82,9 +38,8 @@ class CorrelationsTest {
     }
 
     @Test
-    void testGetCorrelations() throws IOException, URISyntaxException {
-        //given
-        initEventsList();
+    void testGetCorrelations() {
+        List<String> events = correlations.getAllEvents();
         Map<String, Double> allCorrelations = correlations.getCorrelations();
         int eventsSize = events.size();
         //when
@@ -96,9 +51,9 @@ class CorrelationsTest {
     }
 
     @Test
-    void testGetFinalCorrelations() throws IOException, URISyntaxException {
+    void testGetFinalCorrelations() {
         //given
-        initEventsList();
+        List<String> events = correlations.getAllEvents();
         Map<String, Double> finalCorrelations = correlations.getFinalCorrelations();
         //when
         boolean areAllFinalCorrelationsBiggerThan01AndSmallerThanMinus01 = finalCorrelations.entrySet().stream()
@@ -109,18 +64,10 @@ class CorrelationsTest {
         assertTrue(isEventsListContainsAllFinalCorrelations);
     }
 
-    @AfterEach
-
-    @BeforeEach
-    void setParams() {
-        allCorrelations = correlations.getCorrelations();
-        expectedSize = 1;
-    }
-
     @Test
     void testMinCorrelation() {
-        //given
-        setParams();
+        Map<String, Double> allCorrelations = correlations.getCorrelations();
+        int expectedSize = 1;
         Map<String, Double> minCorrelation = correlations.getMinCorrelation();
         double expectedMinCorrelation = allCorrelations.entrySet().stream()
                 .min(Comparator.comparingDouble(Map.Entry::getValue))
@@ -170,12 +117,10 @@ class CorrelationsTest {
         assertTrue(isEventWithMaxCorrCorrect);
     }
 
-    @AfterEach
-
     @Test
     void testFoundedCorrelation() {
         //given
-        foundedEvent = new ArrayList<>(correlations.getMaxCorrelation().keySet()).get(0) + "-" +
+        String foundedEvent = new ArrayList<>(correlations.getMaxCorrelation().keySet()).get(0) + "-" +
                 new ArrayList<>(correlations.getMinCorrelation().keySet()).get(0);
         List<Journal> newJournal = correlations.getFoundedCorrelations();
         //when
@@ -190,7 +135,7 @@ class CorrelationsTest {
     @Test
     void isFoundedCorrelationCorrect() {
         //given
-        foundedEvent = new ArrayList<>(correlations.getMaxCorrelation().keySet()).get(0) + "-" +
+        String foundedEvent = new ArrayList<>(correlations.getMaxCorrelation().keySet()).get(0) + "-" +
                 new ArrayList<>(correlations.getMinCorrelation().keySet()).get(0);
         double expectedCorrelation = 1.0;
         List<Journal> foundedCorrelations = correlations.getFoundedCorrelations();
