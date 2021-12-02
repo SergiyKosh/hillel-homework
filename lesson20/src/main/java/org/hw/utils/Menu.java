@@ -24,17 +24,17 @@ public class Menu {
                 menu(phoneBook);
                 break;
             case "2":
-                phoneBook.printPhoneBook();
+                phoneBook.printPhoneBook(phoneBook.getPhoneNumbers());
                 menu(phoneBook);
                 break;
             case "3":
                 phoneBook.sortByName();
-                phoneBook.printPhoneBook();
+                phoneBook.printPhoneBook(phoneBook.getPhoneNumbers());
                 menu(phoneBook);
                 break;
             case "4":
                 phoneBook.sortByPhoneNumber();
-                phoneBook.printPhoneBook();
+                phoneBook.printPhoneBook(phoneBook.getPhoneNumbers());
                 menu(phoneBook);
                 break;
             case "0":

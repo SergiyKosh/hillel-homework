@@ -12,10 +12,10 @@ public class MyPhoneBook {
     }
 
     public void addPhoneNumber(String name, String phone) {
-        phoneNumbers.add(new MyPhoneBook.PhoneRecord(name, phone));
+        phoneNumbers.add(new PhoneRecord(name, phone));
     }
 
-    public void printPhoneBook() {
+    public void printPhoneBook(List<PhoneRecord> phoneNumbers) {
         phoneNumbers.forEach(System.out::println);
     }
 
@@ -32,7 +32,13 @@ public class MyPhoneBook {
         phoneNumbers.sort(Comparator.comparing(PhoneRecord::getPhone));
     }
 
-    private class PhoneRecord {
+    //для тестов
+    public List<PhoneRecord> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    //сделал его public для того, чтобы можно было писать тесты для телефонной книги
+    public class PhoneRecord {
         private final String name;
         private final String phone;
 
@@ -41,11 +47,11 @@ public class MyPhoneBook {
             this.phone = phone;
         }
 
-        String getName() {
+        public String getName() {
             return name;
         }
 
-        String getPhone() {
+        public String getPhone() {
             return phone;
         }
 
