@@ -1,10 +1,8 @@
 package second;
 
-public class MainClass
-{
+public class MainClass {
     //в 3 случаях вывод 3131, т.к. инкремент постфиксный
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println(X.x);
 
         System.out.println(X.Y.y);

@@ -5,10 +5,8 @@ public class A {
     //в таком случае нужно метод сделать нестатическим,
     //т.к. внутренние нестатические классы не могут содержать внутри себя статику
 
-    class B
-    {
-        void methodB()
-        {
+    class B {
+        void methodB() {
             System.out.println("Method B");
         }
     }
