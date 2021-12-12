@@ -8,4 +8,11 @@ public class MyTestMethod {
                 .filter(x -> x.compareTo(value) > 0)
                 .count();
     }
+
+    public static <E extends Number> long calcSum(E[] arr, E value) {
+        return Arrays.stream(arr)
+                .filter(x -> x.longValue() > value.longValue())
+                .mapToLong(Number::longValue)
+                .sum();
+    }
 }

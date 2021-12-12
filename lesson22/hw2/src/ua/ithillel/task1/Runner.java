@@ -6,5 +6,7 @@ public class Runner {
         Double[] doubleArr = {2.5, 1.3, 4.5, 7.8, 9.0};
         System.out.println(MyTestMethod.calcNum(intArr, 4));
         System.out.println(MyTestMethod.calcNum(doubleArr, 2.5));
+        System.out.println(MyTestMethod.calcSum(intArr, 4));
+        System.out.println(MyTestMethod.calcSum(doubleArr, 2.5));
     }
 }
