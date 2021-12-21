@@ -38,8 +38,7 @@ public class OrderService {
                 .filter(order -> order.getCustomer().getTier() == 2 &&
                         order.getOrderDate().compareTo(startDate) >= 0 &&
                         order.getOrderDate().compareTo(endDate) <= 0)
-                .map(order -> List.of(order.getProducts()))
-                .flatMap(List::stream)
+                .map(Order::getProducts)
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
@@ -56,8 +55,7 @@ public class OrderService {
         return orders.stream()
                 .filter(order -> order.getOrderDate().equals(date))
                 .peek(System.out::println)
-                .map(order -> List.of(order.getProducts()))
-                .flatMap(List::stream)
+                .map(Order::getProducts)
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
