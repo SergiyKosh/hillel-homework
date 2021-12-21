@@ -55,15 +55,15 @@ public class InitLists {
                                 new Customer(
                                         Long.parseLong(
                                                 lines[5]
-                                                .replaceAll("\\[", "")
-                                                .replaceAll("]", "")
-                                                .split("=")[0]),
+                                                        .replaceAll("\\[", "")
+                                                        .replaceAll("]", "")
+                                                        .split("=")[0]),
                                         lines[5].split("=")[1],
                                         Integer.parseInt(
                                                 lines[5]
-                                                .replaceAll("\\[", "")
-                                                .replaceAll("]", "")
-                                                .split("=")[2])
+                                                        .replaceAll("\\[", "")
+                                                        .replaceAll("]", "")
+                                                        .split("=")[2])
                                 )
                         )
                 )
