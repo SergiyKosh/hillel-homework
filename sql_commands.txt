@@ -1,0 +1,363 @@
+Задание 1.
+Создать БД с именем hr:
+1. sudo -su postgres
+2. psql
+3. CREATE DATABASE hr;
+Выполнить скрипт HR_pgsql.sql:
+1. quit
+2. psql -f HR_pgsql.sql hr
+Выполнить задания с сайта https://habr.com/ru/post/461567/:
+1. psql
+2. \connect hr
+
+1) Таблица Employees. Получить список с информацией обо всех сотрудниках
+
+SELECT * FROM employees;
+
+2) Таблица Employees. Получить список всех сотрудников с именем 'David'
+
+SELECT * FROM employees WHERE first_name='David';
+
+3) Таблица Employees. Получить список всех сотрудников с job_id равным 'IT_PROG'
+
+SELECT * FROM employees WHERE job_id='IT_PROG';
+
+4) Таблица Employees. Получить список всех сотрудников из 50го отдела (department_id) с зарплатой(salary), большей 4000
+
+SELECT * FROM employees WHERE department_id = 50 AND salary > 4000;
+
+5) Таблица Employees. Получить список всех сотрудников из 20го и из 30го отдела (department_id)
+
+SELECT * FROM employees WHERE department_id = 20 OR department_id = 30;
+
+6) Таблица Employees. Получить список всех сотрудников у которых последняя буква в имени равна 'a'
+
+SELECT * FROM employees WHERE first_name LIKE '%a';
+
+7) Таблица Employees. Получить список всех сотрудников из 50го и из 80го отдела (department_id) у которых есть бонус (значение в колонке commission_pct не пустое)
+
+SELECT * FROM employees WHERE (department_id=50 OR department_id=80) AND commission_pct IS NOT NULL;
+
+8) Таблица Employees. Получить список всех сотрудников у которых в имени содержатся минимум 2 буквы 'n'
+
+SELECT * FROM employees WHERE first_name LIKE '%n%n%';
+
+9) Таблица Employees. Получить список всех сотрудников у которых длина имени больше 4 букв
+
+SELECT * FROM employees WHERE LENGTH(first_name) > 4;
+
+10) Таблица Employees. Получить список всех сотрудников у которых зарплата находится в промежутке от 8000 до 9000 (включительно)
+
+SELECT * FROM employees WHERE salary >= 8000 AND salary <= 9000;
+
+11) Таблица Employees. Получить список всех сотрудников у которых в имени содержится символ '%'
+
+SELECT * FROM employees WHERE first_name LIKE '%\%%' ESCAPE '\';
+
+12) Таблица Employees. Получить список всех ID менеджеров
+
+SELECT manager_id FROM employees;
+
+13) Таблица Employees. Получить список работников с их позициями в формате: Donald(sh_clerk)
+
+SELECT first_name || '(' || LOWER (job_id) || ')' employee FROM employees;
+
+14) Таблица Employees. Получить список всех сотрудников у которых длина имени больше 10 букв
+
+SELECT * FROM employees WHERE LENGTH(first_name) > 10;
+
+15) Таблица Employees. Получить список всех сотрудников у которых в имени есть буква 'b' (без учета регистра)
+
+SELECT * FROM employees WHERE STRPOS (LOWER (first_name), 'b') > 0;
+
+16) Таблица Employees. Получить список всех сотрудников у которых в имени содержатся минимум 2 буквы 'a'
+
+SELECT * FROM employees WHERE first_name LIKE '%a%a%';
+
+17) Таблица Employees. Получить список всех сотрудников зарплата которых кратна 1000
+
+SELECT * FROM employees WHERE MOD (salary, 1000) = 0;
+
+18) Таблица Employees. Получить первое 3х значное число телефонного номера сотрудника если его номер в формате ХХХ.ХХХ.ХХХХ
+
+SELECT phone_number, SUBSTR (phone_number,1,3) new_phone_number FROM employees WHERE phone_number LIKE '___.___.____';
+
+19) Таблица Departments. Получить первое слово из имени департамента для тех у кого в названии больше одного слова
+
+SELECT department_name, SUBSTR (department_name, 1, STRPOS (department_name, ' ')-1) first_world FROM departments WHERE STRPOS (department_name, ' ') > 0
+
+20) Таблица Employees. Получить имена сотрудников без первой и последней буквы в имени
+
+SELECT first_name, SUBSTR (first_name, 2, LENGTH(first_name) - 2) new_name FROM employees;
+
+21) Таблица Employees. Получить список всех сотрудников у которых последняя буква в имени равна 'm' и длинной имени большей 5ти
+
+SELECT * FROM employees WHERE first_name LIKE '%m' AND LENGTH(first_name) > 5;
+
+22) Таблица Dual. Получить дату следующей пятницы
+
+SELECT 'TOMORROW'::date + (4 + 7 - extract( dow FROM 'TOMORROW'::date))::int%7 next_friday;
+
+23) Таблица Employees. Получить список всех сотрудников которые работают в компании больше 17 лет
+
+SELECT * FROM employees WHERE EXTRACT(MONTH FROM AGE (CURRENT_TIMESTAMP, hire_date)) / 12 > 17;
+
+24) Таблица Employees. Получить список всех сотрудников у которых последня цифра телефонного номера нечетная и состоит из 3ех чисел разделенных точкой
+
+SELECT * FROM employees WHERE MOD (SUBSTR (phone_number, LENGTH(phone_number))::DECIMAL, 2) != 0 - не понимаю, чем заменить instr 
+
+25) Таблица Employees. Получить список всех сотрудников у которых в значении job_id после знака '_' как минимум 3 символа но при этом это значение после '_' не равно 'CLERK'
+
+SELECT * FROM employees 
+WHERE LENGTH(SUBSTR(job_id, STRPOS(job_id, '_') + 1)) > 3 
+AND SUBSTR(job_id, STRPOS(job_id, '_') + 1) != 'CLERK';
+
+26) Таблица Employees. Получить список всех сотрудников заменив в значении PHONE_NUMBER все '.' на '-'
+
+SELECT phone_number, REPLACE(phone_number, '.', '-') FROM employees; 
+
+27) Таблица Employees. Получить список всех сотрудников которые пришли на работу в первый день месяца (любого)
+
+SELECT * FROM employees WHERE TO_CHAR(hire_date, 'DD') = '01';
+
+28) Таблица Employees. Получить список всех сотрудников которые пришли на работу в 2008ом году
+
+SELECT * FROM employees WHERE TO_CHAR(hire_date, 'YYYY') = '2008';
+
+29) Таблица DUAL. Показать завтрашнюю дату в формате: Tomorrow is Second day of January
+
+SELECT TO_CHAR('TOMORROW'::TIMESTAMP, '"Tomorrow" "is" FMDD "day" of TMMonth');
+
+30) Таблица Employees. Получить список всех сотрудников и дату прихода на работу каждого в формате: 21st of June, 2007
+
+SELECT first_name, TO_CHAR(hire_date, 'DDth "of" Month, YYYY') from employees;
+
+31) Таблица Employees. Получить список работников с увеличенными зарплатами на 20%. Зарплату показать со знаком доллара
+
+SELECT first_name, TO_CHAR (salary + salary * 0.20, 'fm$999,999.00') new_salary FROM employees;
+
+32) Таблица Employees. Получить список всех сотрудников которые приши на работу в феврале 2007го года.
+
+SELECT * FROM employees WHERE EXTRACT(MONTH FROM hire_date) = 2 AND EXTRACT(YEAR FROM hire_date) = 2007;
+
+33) Таблица Employees. Получить список всех сотрудников с полными зарплатами (salary + commission_pct(%)) в формате: $24,000.00
+
+SELECT first_name, TO_CHAR(salary + salary * COALESCE(commission_pct, 0), 'fm$99,999.00') full_salary FROM employees;
+
+34) Таблица Employees. Получить список всех сотрудников и информацию о наличии бонусов к зарплате (Yes/No)
+
+SELECT first_name, CASE WHEN commission_pct IS NULL THEN 'No' ELSE 'Yes' END commission_pct FROM employees;
+
+35) Таблица Employees. Получить уровень зарплаты каждого сотрудника: Меньше 5000 считается Low level, Больше или равно 5000 и меньше 10000 считается Normal level, Больше иои равно 10000 считается High level
+
+SELECT first_name, salary, CASE 
+WHEN salary<5000 THEN 'Low level' 
+WHEN (salary>=5000 AND salary < 10000) THEN 'Normal level'
+WHEN salary >= 10000 THEN 'High level' END salary_level FROM employees;
+
+36) Таблица Countries. Для каждой страны показать регион в котором он находится: 1-Europe, 2-America, 3-Asia, 4-Africa (без Join)
+
+SELECT country_name, 
+CASE WHEN region_id=1 THEN 'Europe'
+WHEN region_id=2 THEN 'America'
+WHEN region_id=3 THEN 'Asia'
+WHEN region_id=4 THEN 'Africa'
+ELSE 'Unknown' END region FROM countries;
+
+37) Таблица Employees. Получить репорт по department_id с минимальной и максимальной зарплатой, с ранней и поздней датой прихода на работу и с количествов сотрудников. Сорировать по количеству сотрудников (по убыванию)
+
+SELECT department_id,
+MIN(salary) min_salary,
+MAX(salary) max_salary,
+MIN(hire_date) min_hire_date,
+MAX(hire_date) min_hire_date,
+COUNT(*) count
+FROM employees
+GROUP BY department_id
+ORDER BY COUNT(*) desc;
+
+38) Таблица Employees. Сколько сотрудников имена которых начинается с одной и той же буквы? Сортировать по количеству. Показывать только те где количество больше 1
+
+SELECT SUBSTR(first_name,1,1) first_char, COUNT (*) FROM employees
+GROUP BY SUBSTR(first_name,1,1) HAVING COUNT (*) > 1
+ORDER BY 2 DESC;
+
+39) Таблица Employees. Сколько сотрудников которые работают в одном и тоже отделе и получают одинаковую зарплату?
+
+SELECT department_id, salary, COUNT (*) FROM employees GROUP BY department_id, salary HAVING COUNT (*) > 1;
+
+40) Таблица Employees. Получить репорт сколько сотрудников приняли на работу в каждый день недели. Сортировать по количеству
+
+SELECT TO_CHAR(hire_date, 'Day') daay, COUNT(*) FROM employees
+GROUP BY TO_CHAR (hire_date, 'Day')
+ORDER BY 2 DESC;
+
+41) Таблица Employees. Получить репорт сколько сотрудников приняли на работу по годам. Сортировать по количеству
+
+SELECT TO_CHAR(hire_date, EXTRACT(YEAR FROM hire_date)::TEXT) yeear, COUNT(*) FROM employees GROUP BY(1) ORDER BY(2);
+
+42) Таблица Employees. Получить количество департаментов в котором есть сотрудники
+
+SELECT COUNT (*) department_count COUNT(1) FROM employees WHERE department_id IS NOT NULL GROUP BY department_id;
+
+43) Таблица Employees. Получить список department_id в котором работают больше 30 сотрудников
+
+SELECT department_id FROM employees GROUP BY department_id HAVING COUNT(department_id) > 30;
+
+44) Таблица Employees. Получить список department_id и округленную среднюю зарплату работников в каждом департаменте.
+
+SELECT department_id, ROUND (AVG (salary)) avg_salary FROM employees GROUP BY department_id;
+
+45) Таблица Countries. Получить список region_id сумма всех букв всех country_name в котором больше 60ти
+
+SELECT region_id FROM countries GROUP BY region_id HAVING SUM(LENGTH(country_name)) > 60;
+
+46) Таблица Employees. Получить список department_id в котором работают работники нескольких (>1) job_id
+
+SELECT department_id FROM employees GROUP BY department_id HAVING COUNT (DISTINCT job_id) > 1;
+
+47) Таблица Employees. Получить список manager_id у которых количество подчиненных больше 5 и сумма всех зарплат его подчиненных больше 50000
+
+SELECT manager_id FROM employees GROUP BY manager_id HAVING COUNT (DISTINCT employee_id) > 5 AND SUM(salary) > 50000;
+
+48) Таблица Employees. Получить список manager_id у которых средняя зарплата всех его подчиненных находится в промежутке от 6000 до 9000 которые не получают бонусы (commission_pct пустой)
+
+SELECT manager_id FROM employees WHERE commission_pct IS NULL GROUP BY manager_id HAVING AVG(salary) BETWEEN 6000 AND 9000;
+
+49) Таблица Employees. Получить максимальную зарплату из всех сотрудников job_id которыз заканчивается на слово 'CLERK'
+
+SELECT MAX(salary) max_salary FROM employees WHERE job_id LIKE '%CLERK';
+
+50) Таблица Employees. Получить максимальную зарплату среди всех средних зарплат по департаменту
+
+SELECT AVG(salary) as avg, MAX(avg) FROM employees GROUP BY department_id;
+
+51) Таблица Employees. Получить количество сотрудников с одинаковым количеством букв в имени. При этом показать только тех у кого длина имени больше 5 и количество сотрудников с таким именем больше 20. Сортировать по длинне имени
+
+SELECT LENGTH (first_name), COUNT(*) FROM employees
+GROUP BY LENGTH(first_name)
+HAVING LENGTH(first_name) > 5 AND COUNT (*) > 20
+ORDER BY LENGTH (first_name);
+
+52) Таблица Employees, Departaments, Locations, Countries, Regions. Получить список регионов и количество сотрудников в каждом регионе
+
+SELECT region_name, COUNT (*) FROM employees 
+JOIN departments ON (employees.department_id = departments.department_id)
+JOIN locations ON (departments.location_id = locations.location_id)
+JOIN countries ON (locations.country_id = countries.country_id)
+JOIN regions ON (countries.region_id = regions.region_id)
+GROUP BY region_name;
+
+53) Таблица Employees, Departaments, Locations, Countries, Regions. Получить детальную информацию о каждом сотруднике:
+First_name, Last_name, Departament, Job, Street, Country, Region
+
+SELECT first_name, last_name, department_name, job_id, street_address, country_name, region_name 
+FROM employees 
+JOIN departments ON (employees.department_id = departments.department_id)
+JOIN locations ON (departments.location_id = locations.location_id)
+JOIN countries ON (locations.country_id = countries.country_id)
+JOIN regions ON (countries.region_id = regions.region_id);
+
+54) Таблица Employees. Показать всех менеджеров которые имеют в подчинении больше 6ти сотрудников
+
+SELECT manager.first_name, COUNT(*) 
+FROM employees empl JOIN employees manager ON (empl.manager_id = manager.employee_id)
+GROUP BY manager.first_name
+HAVING COUNT (*) > 6;
+
+55) Таблица Employees. Показать всех сотрудников которые ни кому не подчиняются
+
+SELECT * FROM employees WHERE manager_id IS NULL;
+
+56) Таблица Employees, Job_history. В таблице Employee хранятся все сотрудники. В таблице Job_history хранятся сотрудники которые покинули компанию. Получить репорт о всех сотрудниках и о его статусе в компании (Работает или покинул компанию с датой ухода)
+Пример:
+first_name | status
+Jennifer | Left the company at 31 of December, 2006
+Clara | Currently Working
+57) Таблица Employees, Departaments, Locations, Countries, Regions. Получить список сотрудников которые живут в Europe (region_name)
+
+SELECT * FROM employees 
+JOIN departments ON (employees.department_id = departments.department_id)
+JOIN locations ON (departments.location_id = locations.location_id)
+JOIN countries ON (locations.country_id = countries.country_id)
+JOIN regions ON (countries.region_id = regions.region_id)
+WHERE region_name = 'Europe';
+
+58) Таблица Employees, Departaments. Показать все департаменты в которых работают больше 30ти сотрудников
+
+SELECT department_name, COUNT (*) FROM employees INNER JOIN departments ON (employees.department_id = departments.department_id)
+GROUP BY department_name HAVING COUNT (*) > 30;
+
+59) Таблица Employees, Departaments. Показать всех сотрудников которые не состоят ни в одном департаменте
+
+SELECT * FROM employees LEFT JOIN departments ON (employees.department_id = departments.department_id) WHERE departments.department_id IS NULL;
+
+60) Таблица Employees, Departaments. Показать все департаменты в которых нет ни одного сотрудника
+
+SELECT * FROM employees RIGHT JOIN departments ON (employees.department_id = departments.department_id) WHERE employees.first_name IS NULL;
+
+61) Таблица Employees. Показать всех сотрудников у которых нет ни кого в подчинении
+
+SELECT first_name, job_title, department_name 
+FROM employees 
+INNER JOIN jobs ON (employees.job_id = jobs.job_id) 
+INNER JOIN departments ON (employees.department_id = departments.department_id);
+
+62) Таблица Employees. Получить список сотрудников менеджеры которых устроились на работу в 2005ом году но при это сами эти работники устроились на работу до 2005 года
+
+SELECT * FROM employees empl 
+INNER JOIN employees manager ON (empl.manager_id = manager.employee_id)
+WHERE TO_CHAR (manager.hire_date, 'YYYY') = '2005' 
+AND empl.hire_date < TO_DATE ('01012005', 'DDMMYYYY');
+
+63) Таблица Employees. Получить список сотрудников менеджеры которых устроились на работу в январе месяце любого года и длина job_title этих сотрудников больше 15ти символов
+
+SELECT * FROM employees empl
+INNER JOIN employees manager ON (manager.employee_id = empl.manager_id)
+INNER JOIN jobs ON (empl.job_id = jobs.job_id)
+WHERE LENGTH(jobs.job_title) > 15 AND TO_CHAR (manager.hire_date, 'MM') = '01';
+
+64) Таблица Employees. Получить список сотрудников с самым длинным именем.
+
+SELECT * FROM employees WHERE LENGTH (first_name) = (SELECT MAX (LENGTH (first_name)) FROM employees);
+
+65) Таблица Employees. Получить список сотрудников с зарплатой большей средней зарплаты всех сотрудников.
+
+66) Таблица Employees. Получить список сотрудников у которых менеджер получает зарплату больше 15000.
+
+SELECT * FROM employees WHERE manager_id IN (SELECT employee_id FROM employees WHERE salary > 15000);
+
+67) Таблица Employees, Departaments. Показать все департаменты в которых нет ни одного сотрудника
+
+SELECT * FROM departments WHERE department_id NOT IN (SELECT department_id FROM employees WHERE department_id IS NOT NULL);
+
+68) Таблица Employees. Показать всех сотрудников которые не являются менеджерами
+
+SELECT * FROM employees WHERE employee_id NOT IN (SELECT manager_id FROM employees WHERE manager_id IS NOT NULL);
+
+69) Таблица Employees. Показать всех менеджеров которые имеют в подчинении больше 6ти сотрудников
+
+SELECT * FROM employees empl WHERE (SELECT COUNT (*) FROM employees WHERE manager_id = empl.employee_id) > 6;
+
+70) Таблица Employees, Departaments. Показать сотрудников которые работают в департаменте IT
+
+SELECT * FROM employees WHERE department_id = (SELECT department_id FROM departments WHERE department_name = 'IT');
+
+71) Таблица Employees, Jobs, Departaments. Показать сотрудников в формате: First_name, Job_title, Department_name.
+Пример:
+First_name | Job_title | Department_name
+Donald | Shipping | Clerk Shipping
+
+SELECT first_name, (SELECT job_title FROM jobs WHERE job_id = e.job_id) job_title, 
+(SELECT department_name FROM departments WHERE department_id = e.department_id) department_name FROM employees e;
+
+72) Таблица Employees. Получить список сотрудников менеджеры которых устроились на работу в 2005ом году но при это сами эти работники устроились на работу до 2005 года
+
+SELECT * FROM employees WHERE manager_id IN (SELECT employee_id FROM employees WHERE TO_CHAR (hire_date, 'YYYY') = '2005') 
+AND hire_date < TO_DATE ('01012005', 'DDMMYYYY');
+
+73) Таблица Employees. Получить список сотрудников менеджеры которых устроились на работу в январе месяце любого года и длина job_title этих сотрудников больше 15ти символов
+
+SELECT * FROM employees e WHERE manager_id IN (SELECT employee_id 
+FROM employees WHERE TO_CHAR (hire_date, 'MM') = '01') 
+AND (SELECT LENGTH (job_title) FROM jobs WHERE job_id = e.job_id) > 15;
