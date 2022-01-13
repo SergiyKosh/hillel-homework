@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import static utils.SQLQueries.*;
@@ -23,6 +22,8 @@ public class DepartmentSimpleDao implements DepartmentDao {
 
     @Override
     public Long add(Department department) {
+        departments = new ArrayList<>();
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(ADD_DEPARTMENT)) {
 
             long id = 1 + findAll().stream()
@@ -39,7 +40,7 @@ public class DepartmentSimpleDao implements DepartmentDao {
             throw new RuntimeException(e);
         }
 
-        return department.getId();
+        return findAll().get(findAll().size() - 1).getId();
     }
 
     @Override
@@ -71,7 +72,14 @@ public class DepartmentSimpleDao implements DepartmentDao {
 
     @Override
     public Department get(Long id) {
-        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(SELECT_FROM_DEPARTMENT_WHERE_ID)) {
+        Department department = null;
+
+        try (
+                PreparedStatement ps = DatabaseConnection
+                        .getConnection()
+                        .prepareStatement(SELECT_FROM_DEPARTMENT_WHERE_ID)
+        ) {
+
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -91,6 +99,8 @@ public class DepartmentSimpleDao implements DepartmentDao {
 
     @Override
     public List<Department> findAll() {
+        departments = new ArrayList<>();
+
         try (Statement statement = DatabaseConnection.getConnection().createStatement()) {
             ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_DEPARTMENT);
 

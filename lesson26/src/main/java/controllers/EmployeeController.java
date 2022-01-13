@@ -18,18 +18,19 @@ public class EmployeeController {
         Employee employee = new Employee();
         System.out.print("name: ");
         employee.setName(scanner.nextLine());
-        System.out.println("salary: ");
+        System.out.print("salary: ");
         employee.setSalary(scanner.nextInt());
-        System.out.println("department_id: ");
+        System.out.print("department_id: ");
         employee.setDepartmentId(scanner.nextLong());
-        System.out.println("chief_id: ");
+        System.out.print("chief_id: ");
         employee.setChiefId(scanner.nextLong());
         ems.add(employee);
     }
 
     public void updateEmployee(Menu menu, Long id) {
-        Employee employee = new Employee();
-        if (ems.get(id) == null) {
+        Employee employee = ems.get(id);
+
+        if (employee == null) {
             System.out.println("\nEmployee with id = " + id + " does not exists!\n");
             menu.employeeMenu();
         }

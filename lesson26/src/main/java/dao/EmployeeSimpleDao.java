@@ -14,7 +14,6 @@ import static utils.SQLQueries.*;
 
 public class EmployeeSimpleDao implements EmployeeDao {
     private List<Employee> employees;
-    private Employee employee;
 
     public EmployeeSimpleDao() {
         employees = new ArrayList<>();
@@ -32,11 +31,14 @@ public class EmployeeSimpleDao implements EmployeeDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return employee.getId();
+
+        return findAll().get(findAll().size() - 1).getId();
     }
 
     @Override
     public void update(Employee employee) {
+        employees = new ArrayList<>();
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(UPDATE_EMPLOYEE_WHERE_ID)) {
 
             ps.setString(1, employee.getName());
@@ -54,6 +56,8 @@ public class EmployeeSimpleDao implements EmployeeDao {
 
     @Override
     public void delete(Long id) {
+        employees = new ArrayList<>();
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(DELETE_EMPLOYEE)) {
 
             ps.setLong(1, id);
@@ -67,11 +71,14 @@ public class EmployeeSimpleDao implements EmployeeDao {
 
     @Override
     public Employee get(Long id) {
+        Employee employee = null;
+
         try (
                 PreparedStatement ps = DatabaseConnection
                         .getConnection()
                         .prepareStatement(SELECT_FROM_EMPLOYEE_WHERE_ID)
         ) {
+
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -95,6 +102,7 @@ public class EmployeeSimpleDao implements EmployeeDao {
     @Override
     public List<Employee> findAll() {
         employees = new ArrayList<>();
+
         try (Statement statement = DatabaseConnection.getConnection().createStatement()) {
             ResultSet rs = statement.executeQuery(SELECT_FROM_EMPLOYEE);
 

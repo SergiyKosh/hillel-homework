@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Department {
-    private long id;
+    private Long id;
     private String name;
 
     public Department(String name) {

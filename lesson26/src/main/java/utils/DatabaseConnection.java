@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    public static Connection connection;
+    private static Connection connection;
 
     public static Connection getConnection() {
         String password = "root";
