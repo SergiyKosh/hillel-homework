@@ -1,7 +1,6 @@
 package controllers;
 
 import model.Department;
-import model.Employee;
 import services.DepartmentManageService;
 import utils.Menu;
 
