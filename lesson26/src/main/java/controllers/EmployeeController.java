@@ -1,6 +1,6 @@
 package controllers;
 
-import model.Employee;
+import entities.Employee;
 import services.EmployeeManageService;
 import utils.Menu;
 

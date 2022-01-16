@@ -1,4 +1,4 @@
-package model;
+package entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

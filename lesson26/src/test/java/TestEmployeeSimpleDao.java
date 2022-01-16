@@ -1,16 +1,16 @@
-import dao.EmployeeSimpleDao;
-import model.Employee;
+import dao.EmployeeDatabaseDao;
+import entities.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEmployeeSimpleDao {
-    private EmployeeSimpleDao employeeSimpleDao;
+    private EmployeeDatabaseDao employeeSimpleDao;
 
     @BeforeEach
     void setup() {
-        employeeSimpleDao = new EmployeeSimpleDao();
+        employeeSimpleDao = new EmployeeDatabaseDao();
     }
 
     @Test

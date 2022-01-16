@@ -1,8 +1,8 @@
 package services;
 
 import dao.DepartmentDao;
-import dao.DepartmentSimpleDao;
-import model.Department;
+import dao.DepartmentDatabaseDao;
+import entities.Department;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class DepartmentManageService {
     private final DepartmentDao departmentDao;
 
     public DepartmentManageService() {
-        this.departmentDao = new DepartmentSimpleDao();
+        this.departmentDao = new DepartmentDatabaseDao();
     }
 
     public Long add(Department department) {

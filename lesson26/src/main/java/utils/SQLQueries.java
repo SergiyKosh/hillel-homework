@@ -1,6 +1,7 @@
 package utils;
 
 public final class SQLQueries {
+    //employee table
     public static final String SELECT_FROM_EMPLOYEE = "SELECT * FROM employee";
     public static final String ADD_EMPLOYEE = "INSERT INTO employee (name,salary,department_id,chief_id) " +
             "VALUES (?,?,?,?)";
@@ -9,6 +10,7 @@ public final class SQLQueries {
             "SET name=?,salary=?,department_id=?,chief_id=? WHERE id=?";
     public static final String DELETE_EMPLOYEE = "DELETE FROM employee WHERE id=?";
 
+    //department table
     public static final String ADD_DEPARTMENT = "INSERT INTO department (id,name) VALUES (?,?)";
     public static final String SELECT_ALL_FROM_DEPARTMENT = "SELECT * FROM department";
     public static final String SELECT_FROM_DEPARTMENT_WHERE_ID = "SELECT * FROM department WHERE id=?";

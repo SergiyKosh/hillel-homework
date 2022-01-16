@@ -1,16 +1,16 @@
-import dao.DepartmentSimpleDao;
-import model.Department;
+import dao.DepartmentDatabaseDao;
+import entities.Department;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDepartmentSimpleDao {
-    private DepartmentSimpleDao departmentSimpleDao;
+    private DepartmentDatabaseDao departmentSimpleDao;
 
     @BeforeEach
     void setup() {
-        departmentSimpleDao = new DepartmentSimpleDao();
+        departmentSimpleDao = new DepartmentDatabaseDao();
     }
 
     @Test

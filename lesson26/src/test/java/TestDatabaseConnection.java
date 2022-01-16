@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import utils.DatabaseConnection;
+import dbconnect.DatabaseConnection;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

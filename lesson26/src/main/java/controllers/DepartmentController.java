@@ -1,6 +1,6 @@
 package controllers;
 
-import model.Department;
+import entities.Department;
 import services.DepartmentManageService;
 import utils.Menu;
 

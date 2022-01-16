@@ -1,6 +1,6 @@
 import controllers.EmployeeController;
-import dao.EmployeeSimpleDao;
-import model.Employee;
+import dao.EmployeeDatabaseDao;
+import entities.Employee;
 import org.junit.jupiter.api.Test;
 import utils.Menu;
 
@@ -10,7 +10,7 @@ public class TestEmployeeController {
     @Test
     void testGet() {
         EmployeeController ec = new EmployeeController();
-        EmployeeSimpleDao esd = new EmployeeSimpleDao();
+        EmployeeDatabaseDao esd = new EmployeeDatabaseDao();
         Employee employee = Employee.builder()
                 .name("naasd")
                 .salary(123)

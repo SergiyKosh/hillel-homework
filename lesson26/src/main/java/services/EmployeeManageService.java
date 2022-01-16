@@ -1,13 +1,13 @@
 package services;
 
 import dao.EmployeeDao;
-import dao.EmployeeSimpleDao;
-import model.Employee;
+import dao.EmployeeDatabaseDao;
+import entities.Employee;
 
 import java.util.List;
 
 public class EmployeeManageService {
-    private final EmployeeDao employeeDao = new EmployeeSimpleDao();
+    private final EmployeeDao employeeDao = new EmployeeDatabaseDao();
 
     public Long add(Employee employee) {
         return employeeDao.add(employee);

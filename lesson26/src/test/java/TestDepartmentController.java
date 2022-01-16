@@ -1,6 +1,6 @@
 import controllers.DepartmentController;
-import dao.DepartmentSimpleDao;
-import model.Department;
+import dao.DepartmentDatabaseDao;
+import entities.Department;
 import org.junit.jupiter.api.Test;
 import utils.Menu;
 
@@ -10,7 +10,7 @@ public class TestDepartmentController {
     @Test
     void testGet() {
         DepartmentController dc = new DepartmentController();
-        DepartmentSimpleDao dsd = new DepartmentSimpleDao();
+        DepartmentDatabaseDao dsd = new DepartmentDatabaseDao();
         Department department = Department.builder()
                 .name("asdasd")
                 .build();

@@ -1,53 +1,62 @@
 package dao;
 
-import model.Employee;
-import utils.DatabaseConnection;
+import entities.Employee;
+import dbconnect.DatabaseConnection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static utils.SQLQueries.*;
 
-public class EmployeeSimpleDao implements EmployeeDao {
-    private List<Employee> employees;
-
-    public EmployeeSimpleDao() {
-        employees = new ArrayList<>();
-    }
-
+public class EmployeeDatabaseDao implements EmployeeDao {
     @Override
     public Long add(Employee employee) {
-        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(ADD_EMPLOYEE)) {
+        Connection connection = DatabaseConnection.getConnection();
+        Long employeeId = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(ADD_EMPLOYEE)) {
+
             ps.setString(1, employee.getName());
             ps.setInt(2, employee.getSalary());
             ps.setLong(3, employee.getDepartmentId());
-            ps.setLong(4, employee.getChiefId());
+
+            if (Objects.isNull(employee.getChiefId())) {
+                ps.setNull(4, Types.NULL);
+            } else {
+                ps.setLong(4, employee.getChiefId());
+            }
+
             ps.executeUpdate();
-            employees.add(employee);
+
+            ResultSet gk = ps.getGeneratedKeys();
+
+            if (gk.next()) {
+                employeeId = gk.getLong("id");
+            }
+
+            connection.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return findAll().get(findAll().size() - 1).getId();
+        return employeeId;
     }
 
     @Override
     public void update(Employee employee) {
-        employees = new ArrayList<>();
+        Connection connection = DatabaseConnection.getConnection();
 
-        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(UPDATE_EMPLOYEE_WHERE_ID)) {
-
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_EMPLOYEE_WHERE_ID)) {
             ps.setString(1, employee.getName());
             ps.setInt(2, employee.getSalary());
             ps.setLong(3, employee.getDepartmentId());
             ps.setLong(4, employee.getChiefId());
             ps.setLong(5, employee.getId());
             ps.executeUpdate();
-            employees = findAll();
+            connection.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -56,13 +65,13 @@ public class EmployeeSimpleDao implements EmployeeDao {
 
     @Override
     public void delete(Long id) {
-        employees = new ArrayList<>();
+        Connection connection = DatabaseConnection.getConnection();
 
-        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(DELETE_EMPLOYEE)) {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_EMPLOYEE)) {
 
             ps.setLong(1, id);
             ps.executeUpdate();
-            employees = findAll();
+            connection.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -72,6 +81,7 @@ public class EmployeeSimpleDao implements EmployeeDao {
     @Override
     public Employee get(Long id) {
         Employee employee = null;
+        Connection connection = DatabaseConnection.getConnection();
 
         try (
                 PreparedStatement ps = DatabaseConnection
@@ -92,6 +102,7 @@ public class EmployeeSimpleDao implements EmployeeDao {
                         .build();
             }
 
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -101,9 +112,10 @@ public class EmployeeSimpleDao implements EmployeeDao {
 
     @Override
     public List<Employee> findAll() {
-        employees = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        Connection connection = DatabaseConnection.getConnection();
 
-        try (Statement statement = DatabaseConnection.getConnection().createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SELECT_FROM_EMPLOYEE);
 
             while (rs.next()) {
@@ -117,6 +129,7 @@ public class EmployeeSimpleDao implements EmployeeDao {
                 employees.add(employee);
             }
 
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

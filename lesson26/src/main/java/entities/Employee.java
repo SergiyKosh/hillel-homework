@@ -1,4 +1,4 @@
-package model;
+package entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Employee {
     private Long id;
     private String name;
-    private int salary;
+    private Integer salary;
     private Long departmentId;
     private Long chiefId;
 
