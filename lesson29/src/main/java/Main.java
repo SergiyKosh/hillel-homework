@@ -3,8 +3,6 @@ import hw.annotations.Start;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Comparator;
-import java.util.Optional;
 import java.util.Set;
 
 public class Main {
