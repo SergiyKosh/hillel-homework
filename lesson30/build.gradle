@@ -3,6 +3,10 @@ plugins {
     id 'war'
 }
 
+war {
+    archiveFileName = 'simpleapp.war'
+}
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
