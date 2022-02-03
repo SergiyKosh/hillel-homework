@@ -12,7 +12,7 @@ import rest.entity.Department;
 import rest.entity.Employee;
 
 import static rest.util.Constants.*;
-import static rest.util.ServletUtil.*;
+import static rest.util.servlet.ServletUtil.*;
 
 public class EmployeeController implements Controller {
     @GetMapping(url = "/employees")

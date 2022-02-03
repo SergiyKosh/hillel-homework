@@ -15,8 +15,8 @@ import rest.dao.DepartmentDao;
 import rest.dao.EmployeeDao;
 import rest.repository.DepartmentRepository;
 import rest.repository.EmployeeRepository;
-import rest.util.ServletUtil;
 import rest.util.hibernate.HibernateConfiguration;
+import rest.util.servlet.HttpMethod;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -25,7 +25,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Set;
 
-import static rest.util.ServletUtil.*;
+import static rest.util.servlet.ServletUtil.*;
 
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
@@ -69,15 +69,15 @@ public class DispatcherServlet extends HttpServlet {
 
         AbstractMap.SimpleEntry<? extends Class<? extends Controller>, Method> entry = entries.stream()
                 .filter(clazz -> {
-                    if (request.getMethod().equals("GET")) {
+                    if (request.getMethod().equals(HttpMethod.GET.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(GetMapping.class)
                                 && method.getAnnotation(GetMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals("POST")) {
+                    } else if (request.getMethod().equals(HttpMethod.POST.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(PostMapping.class)
                                         && method.getAnnotation(PostMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals("PUT")) {
+                    } else if (request.getMethod().equals(HttpMethod.PUT.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(PutMapping.class)
                                         && method.getAnnotation(PutMapping.class).url().equals(uri));

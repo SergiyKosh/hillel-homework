@@ -12,8 +12,8 @@ import rest.entity.Department;
 
 import static rest.util.Constants.ID_FIELD;
 import static rest.util.Constants.NAME_FIELD;
-import static rest.util.ServletUtil.DEPARTMENT_DAO;
-import static rest.util.ServletUtil.DEPARTMENT_REPOSITORY;
+import static rest.util.servlet.ServletUtil.DEPARTMENT_DAO;
+import static rest.util.servlet.ServletUtil.DEPARTMENT_REPOSITORY;
 
 public class DepartmentController implements Controller {
     @GetMapping(url = "/departments")

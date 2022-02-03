@@ -1,9 +1,10 @@
-package rest.util;
+package rest.util.servlet;
 
 import jakarta.servlet.http.HttpServletResponse;
 import rest.dao.Dao;
 import rest.entity.Department;
 import rest.entity.Employee;
+import rest.repository.EmployeeRepository;
 import rest.repository.Repository;
 
 import java.io.IOException;
