@@ -1,6 +1,6 @@
-package rest.annotated;
+package rest.core.annotated;
 
-import rest.annotation.GetMapping;
+import rest.core.annotation.GetMapping;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
