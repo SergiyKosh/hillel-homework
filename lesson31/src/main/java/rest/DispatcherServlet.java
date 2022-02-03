@@ -11,18 +11,46 @@ import rest.core.annotation.GetMapping;
 import rest.core.annotation.PostMapping;
 import rest.core.annotation.PutMapping;
 import rest.controller.Controller;
+import rest.dao.DepartmentDao;
+import rest.dao.EmployeeDao;
+import rest.repository.DepartmentRepository;
+import rest.repository.EmployeeRepository;
 import rest.util.ServletUtil;
+import rest.util.hibernate.HibernateConfiguration;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Set;
 
+import static rest.util.ServletUtil.*;
+
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
+    @Override
+    public void init() throws ServletException {
+        super.init();
+
+        EMPLOYEE_DAO = EmployeeDao.builder()
+                .session(HibernateConfiguration.getSession())
+                .build();
+
+        DEPARTMENT_DAO = DepartmentDao.builder()
+                .session(HibernateConfiguration.getSession())
+                .build();
+
+        EMPLOYEE_REPOSITORY = EmployeeRepository.builder()
+                .session(HibernateConfiguration.getSession())
+                .build();
+
+        DEPARTMENT_REPOSITORY = DepartmentRepository
+                .builder()
+                .session(HibernateConfiguration.getSession())
+                .build();
+    }
+
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {

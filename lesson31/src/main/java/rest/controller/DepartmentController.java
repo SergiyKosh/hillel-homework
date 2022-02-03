@@ -8,35 +8,25 @@ import rest.core.annotation.DeleteMapping;
 import rest.core.annotation.GetMapping;
 import rest.core.annotation.PostMapping;
 import rest.core.annotation.PutMapping;
-import rest.dao.DepartmentDao;
 import rest.entity.Department;
-import rest.repository.DepartmentRepository;
-import rest.util.hibernate.HibernateConfiguration;
 
 import static rest.util.Constants.ID_FIELD;
 import static rest.util.Constants.NAME_FIELD;
+import static rest.util.ServletUtil.DEPARTMENT_DAO;
+import static rest.util.ServletUtil.DEPARTMENT_REPOSITORY;
 
 public class DepartmentController implements Controller {
-    private final DepartmentRepository repository = DepartmentRepository
-            .builder()
-            .session(HibernateConfiguration.getSession())
-            .build();
-
-    private final DepartmentDao dao = DepartmentDao.builder()
-            .session(HibernateConfiguration.getSession())
-            .build();
-
     @GetMapping(url = "/departments")
-    public String findAllDepartments(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public String findAll(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(repository.findAll());
+        return mapper.writeValueAsString(DEPARTMENT_REPOSITORY.findAll());
     }
 
     @GetMapping(url = "/department")
     public String get(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         long id = Long.parseLong(request.getParameter(ID_FIELD));
-        return mapper.writeValueAsString(dao.get(id));
+        return mapper.writeValueAsString(DEPARTMENT_DAO.get(id));
     }
 
     @PutMapping(url = "/department/add")
@@ -45,7 +35,7 @@ public class DepartmentController implements Controller {
                 .id(Long.parseLong(request.getParameter(ID_FIELD)))
                 .name(request.getParameter(NAME_FIELD))
                 .build();
-        dao.save(department);
+        DEPARTMENT_DAO.save(department);
     }
 
     @PostMapping(url = "/department/update")
@@ -54,12 +44,12 @@ public class DepartmentController implements Controller {
                 .id(Long.parseLong(request.getParameter(ID_FIELD)))
                 .name(request.getParameter(NAME_FIELD))
                 .build();
-        dao.update(department);
+        DEPARTMENT_DAO.update(department);
     }
 
     @DeleteMapping(url = "/department/delete")
     public void delete(HttpServletRequest request, HttpServletResponse response) {
-        Department department = dao.get(Long.parseLong(request.getParameter(ID_FIELD)));
-        dao.delete(department);
+        Department department = DEPARTMENT_DAO.get(Long.parseLong(request.getParameter(ID_FIELD)));
+        DEPARTMENT_DAO.delete(department);
     }
 }

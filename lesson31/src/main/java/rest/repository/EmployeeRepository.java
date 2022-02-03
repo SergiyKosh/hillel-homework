@@ -16,8 +16,4 @@ public class EmployeeRepository implements Repository<Employee> {
     public List<Employee> findAll() {
         return session.createQuery(SELECT_ALL_EMPLOYEES, Employee.class).getResultList();
     }
-
-    public Employee get(long id) {
-        return session.get(Employee.class, id);
-    }
 }
