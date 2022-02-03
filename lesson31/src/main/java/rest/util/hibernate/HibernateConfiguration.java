@@ -12,6 +12,11 @@ public class HibernateConfiguration {
     private static volatile Session SESSION;
 
     static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         CONFIGURATION.addAnnotatedClass(Department.class)
                 .addAnnotatedClass(Employee.class);
     }
