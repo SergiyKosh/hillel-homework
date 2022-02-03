@@ -120,16 +120,17 @@ public class DispatcherServlet extends HttpServlet {
             response.setContentType("application/json; UTF-8");
             response.getWriter().write(result.toString());
         } else if (mappingMethod.isAnnotationPresent(PostMapping.class)) {
-//            response.setContentType(String.valueOf(response.getStatus()));
-//            response.getWriter().write(result.toString());
-            ServletUtil.writeStatus(response);
+            writeStatus(response);
         } else if (mappingMethod.isAnnotationPresent(PutMapping.class)) {
-//            response.setContentType("text/html; UTF=8");
-//            response.getWriter().write(String.valueOf(response.getStatus()));
-            ServletUtil.writeStatus(response);
+            writeStatus(response);
         } else if (mappingMethod.isAnnotationPresent(DeleteMapping.class)) {
-            ServletUtil.writeStatus(response);
+            writeStatus(response);
         }
+    }
+
+    @Override
+    public void destroy() {
+        HibernateConfiguration.getSession().close();
     }
 }
 
