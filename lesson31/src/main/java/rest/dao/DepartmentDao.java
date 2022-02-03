@@ -23,11 +23,15 @@ public class DepartmentDao implements Dao<Department> {
 
     @Override
     public void update(Department entity) {
-
+        Transaction transaction = session.beginTransaction();
+        session.update(entity);
+        transaction.commit();
     }
 
     @Override
     public void delete(Department entity) {
-
+        Transaction transaction = session.beginTransaction();
+        session.delete(entity);
+        transaction.commit();
     }
 }

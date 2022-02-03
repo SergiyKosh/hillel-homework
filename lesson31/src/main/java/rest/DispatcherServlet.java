@@ -11,6 +11,7 @@ import rest.core.annotation.GetMapping;
 import rest.core.annotation.PostMapping;
 import rest.core.annotation.PutMapping;
 import rest.controller.Controller;
+import rest.util.ServletUtil;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -42,16 +43,20 @@ public class DispatcherServlet extends HttpServlet {
                 .filter(clazz -> {
                     if (request.getMethod().equals("GET")) {
                         return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(m -> m.isAnnotationPresent(GetMapping.class));
+                                .anyMatch(method -> method.isAnnotationPresent(GetMapping.class)
+                                && method.getAnnotation(GetMapping.class).url().equals(uri));
                     } else if (request.getMethod().equals("POST")) {
                         return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(m -> m.isAnnotationPresent(PostMapping.class));
+                                .anyMatch(method -> method.isAnnotationPresent(PostMapping.class)
+                                        && method.getAnnotation(PostMapping.class).url().equals(uri));
                     } else if (request.getMethod().equals("PUT")) {
                         return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(PutMapping.class));
+                                .anyMatch(method -> method.isAnnotationPresent(PutMapping.class)
+                                        && method.getAnnotation(PutMapping.class).url().equals(uri));
                     } else {
                         return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(DeleteMapping.class));
+                                .anyMatch(method -> method.isAnnotationPresent(DeleteMapping.class)
+                                        && method.getAnnotation(DeleteMapping.class).url().equals(uri));
                     }
                 })
                 .map(clazz -> {
@@ -79,16 +84,23 @@ public class DispatcherServlet extends HttpServlet {
                 .orElseThrow(RuntimeException::new);
 
 
-        Object result = entry.getValue().invoke(entry.getKey().getConstructor().newInstance(), request, response);
+        Method mappingMethod = entry.getValue();
+        Class<?> mappingClass = entry.getKey();
+        Object result = mappingMethod.invoke(mappingClass.getConstructor().newInstance(), request, response);
 
-        if (entry.getValue().isAnnotationPresent(GetMapping.class)) {
-            String url = entry.getValue().getAnnotation(GetMapping.class).url();
+        if (mappingMethod.isAnnotationPresent(GetMapping.class)) {
             response.setContentType("application/json; UTF-8");
             response.getWriter().write(result.toString());
-        } else if (entry.getValue().isAnnotationPresent(PostMapping.class)) {
-            String url = entry.getValue().getAnnotation(PostMapping.class).url();
-            response.setContentType("text/html; UTF=8");
-            response.getWriter().write(result.toString());
+        } else if (mappingMethod.isAnnotationPresent(PostMapping.class)) {
+//            response.setContentType(String.valueOf(response.getStatus()));
+//            response.getWriter().write(result.toString());
+            ServletUtil.writeStatus(response);
+        } else if (mappingMethod.isAnnotationPresent(PutMapping.class)) {
+//            response.setContentType("text/html; UTF=8");
+//            response.getWriter().write(String.valueOf(response.getStatus()));
+            ServletUtil.writeStatus(response);
+        } else if (mappingMethod.isAnnotationPresent(DeleteMapping.class)) {
+            ServletUtil.writeStatus(response);
         }
     }
 }
