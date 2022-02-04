@@ -5,6 +5,8 @@
     <title>Employees</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
 </head>
 
 <header>
@@ -29,13 +31,26 @@
             <td>${department.getId()}</td>
             <td>${department.getName()}</td>
             <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
+            <td>
+                <form>
+                    <input type="hidden" id="id" name="id" value="${department.getId()}">
+                    <input type="hidden" id="name" name="name" value="${department.getName()}">
+                    <button type="button" onclick="clicked()">delete</button>
+                </form>
+                <script type="text/javascript">
+                    function clicked() {
+                        $.ajax({
+                            url: "http://127.0.0.1:8080/department/delete",
+                            contentType: "application/json",
+                            type: "DELETE",
+                            data: {
+                                "test123": "324123"
+                            }
 
-            <form method="post" action="/department/delete">
-                <input type="hidden" name="id" value="${department.getId()}">
-                <td>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </td>
-            </form>
+                        })
+                    }
+                </script>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
