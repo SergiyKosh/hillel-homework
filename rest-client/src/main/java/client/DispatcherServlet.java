@@ -1,10 +1,6 @@
 package client;
 
-import client.core.annotation.DeleteMapping;
-import client.core.annotation.GetMapping;
-import client.core.annotation.PostMapping;
-import client.core.annotation.PutMapping;
-import client.core.controller.Controller;
+import client.core.annotation.*;
 import client.util.servlet.HttpMethod;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -91,9 +87,16 @@ public class DispatcherServlet extends HttpServlet {
             result += ".jsp";
         }
 
+        if (result.toString().startsWith("redirect:")) {
+            result = result.toString()
+                    .replaceAll("redirect:", "")
+                    .replaceAll(".jsp", "");
+        }
+
         if (mappingMethod.isAnnotationPresent(GetMapping.class)) {
             request.getRequestDispatcher(result.toString()).forward(request, response);
         } else if (mappingMethod.isAnnotationPresent(PostMapping.class)) {
+            response.sendRedirect(result.toString());
         } else if (mappingMethod.isAnnotationPresent(PutMapping.class)) {
         } else if (mappingMethod.isAnnotationPresent(DeleteMapping.class)) {
         }

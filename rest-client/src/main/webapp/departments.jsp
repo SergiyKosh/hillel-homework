@@ -18,23 +18,20 @@
 <body>
 <table class="table table-dark mt-2">
     <thead>
-    <th scope="row">Department</th>
-    <th scope="row">Employee name</th>
-    <th scope="row">Salary</th>
-    <th scope="row">Chief id</th>
+    <th scope="row">Id</th>
+    <th scope="row">Department name</th>
     <td></td>
     <td></td>
     </thead>
     <tbody>
-    <c:forEach var="employee" items="${employees}">
+    <c:forEach var="department" items="${departments}">
         <tr>
-            <td>${employee.getDepartment().getName()}</td>
-            <td>${employee.getName()}</td>
-            <td>${employee.getSalary()}</td>
-            <td>${employee.getChiefId()}</td>
-            <td><a href="/employee/edit?id=${employee.getId()}" class="btn btn-link">Edit</a></td>
+            <td>${department.getId()}</td>
+            <td>${department.getName()}</td>
+            <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
 
-            <form method="post" action="/employee/delete">
+            <form method="post" action="/department/delete">
+                <input type="hidden" name="id" value="${department.getId()}">
                 <td>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </td>

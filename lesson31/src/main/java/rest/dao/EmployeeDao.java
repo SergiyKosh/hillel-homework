@@ -11,7 +11,10 @@ public class EmployeeDao implements Dao<Employee> {
 
     @Override
     public void save(Employee entity) {
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
         session.save(entity);
         transaction.commit();
     }
@@ -23,14 +26,20 @@ public class EmployeeDao implements Dao<Employee> {
 
     @Override
     public void update(Employee entity) {
-        Transaction transaction = session.beginTransaction();
-        session.update(entity);
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
+        session.update("Employee", entity);
         transaction.commit();
     }
 
     @Override
     public void delete(Employee entity) {
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
         session.delete(entity);
         transaction.commit();
     }

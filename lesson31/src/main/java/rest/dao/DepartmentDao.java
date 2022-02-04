@@ -11,7 +11,10 @@ public class DepartmentDao implements Dao<Department> {
 
     @Override
     public void save(Department entity) {
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
         session.save(entity);
         transaction.commit();
     }
@@ -23,14 +26,20 @@ public class DepartmentDao implements Dao<Department> {
 
     @Override
     public void update(Department entity) {
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
         session.update(entity);
         transaction.commit();
     }
 
     @Override
     public void delete(Department entity) {
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction;
+        if (!session.getTransaction().isActive()) {
+            transaction = session.beginTransaction();
+        } else transaction = session.getTransaction();
         session.delete(entity);
         transaction.commit();
     }

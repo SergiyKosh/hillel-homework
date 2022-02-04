@@ -74,6 +74,6 @@ public class EmployeeController implements Controller {
                 .department(department)
                 .chiefId(Long.parseLong(request.getParameter(CHIEF_ID_FIELD)))
                 .build();
-        EMPLOYEE_DAO.update(employee);
+        EMPLOYEE_DAO.delete(employee);
     }
 }
