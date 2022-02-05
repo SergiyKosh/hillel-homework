@@ -1,21 +1,14 @@
 package rest.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import rest.core.annotation.DeleteMapping;
-import rest.core.annotation.GetMapping;
-import rest.core.annotation.PostMapping;
-import rest.core.annotation.PutMapping;
-import rest.entity.Department;
-import rest.entity.Employee;
+import rest.core.annotation.*;
+import rest.core.annotation.Controller;
 import rest.service.EmployeeService;
 
-import static rest.util.Constants.*;
-import static rest.util.servlet.ServletUtil.*;
-
-public class EmployeeController implements Controller {
+@Controller
+public class EmployeeController {
     private final EmployeeService service = new EmployeeService();
 
     @GetMapping(url = "/employees")
@@ -29,17 +22,28 @@ public class EmployeeController implements Controller {
     }
 
     @PutMapping(url = "/employee/add")
-    public void save(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public String save(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         service.create(request);
+        return "redirect:/http://localhost:8081/employees";
     }
 
     @PostMapping(url = "/employee/update")
-    public void update(HttpServletRequest request, HttpServletResponse response) {
+    public String update(HttpServletRequest request, HttpServletResponse response) {
         service.update(request);
+        return "redirect:/http://localhost:8081/employees";
+    }
+
+    @OptionsMapping(url = "/employee/delete")
+    public void options(HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader( "Access-Control-Allow-Headers", "*");
+        response.addHeader( "Access-Control-Allow-Methods", "*");
+        response.setStatus(200);
     }
 
     @DeleteMapping(url = "/employee/delete")
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public String delete(HttpServletRequest request, HttpServletResponse response) {
         service.delete(request);
+        return "redirect:/http://localhost:8081/employees";
     }
 }

@@ -1,22 +1,17 @@
 package rest.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import rest.core.annotation.Controller;
 import rest.core.annotation.DeleteMapping;
 import rest.core.annotation.GetMapping;
 import rest.core.annotation.PostMapping;
 import rest.core.annotation.PutMapping;
-import rest.entity.Department;
 import rest.service.DepartmentService;
 
-import static rest.util.Constants.ID_FIELD;
-import static rest.util.Constants.NAME_FIELD;
-import static rest.util.servlet.ServletUtil.DEPARTMENT_DAO;
-import static rest.util.servlet.ServletUtil.DEPARTMENT_REPOSITORY;
-
-public class DepartmentController implements Controller {
+@Controller
+public class DepartmentController {
     private final DepartmentService service = new DepartmentService();
 
     @GetMapping(url = "/departments")
@@ -35,8 +30,9 @@ public class DepartmentController implements Controller {
     }
 
     @PostMapping(url = "/department/update")
-    public void update(HttpServletRequest request, HttpServletResponse response) {
+    public String update(HttpServletRequest request, HttpServletResponse response) {
         service.update(request);
+        return "redirect:/http://localhost:8081/departments";
     }
 
     @DeleteMapping(url = "/department/delete")

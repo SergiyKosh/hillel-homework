@@ -1,6 +1,6 @@
 package client.core.annotated;
 
-import client.core.annotation.GetMapping;
+import client.core.annotation.mapping.GetMapping;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;

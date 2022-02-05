@@ -1,4 +1,4 @@
-package client.core.annotation;
+package client.core.annotation.mapping;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PutMapping {
+public @interface DeleteMapping {
     String url() default "/";
 }

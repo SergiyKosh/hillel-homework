@@ -1,8 +1,8 @@
 package client.controller;
 
 import client.core.annotation.Controller;
-import client.core.annotation.GetMapping;
-import client.core.annotation.PostMapping;
+import client.core.annotation.mapping.GetMapping;
+import client.core.annotation.mapping.PostMapping;
 import client.entity.Employee;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

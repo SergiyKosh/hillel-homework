@@ -6,11 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.reflections.Reflections;
-import rest.core.annotation.DeleteMapping;
-import rest.core.annotation.GetMapping;
-import rest.core.annotation.PostMapping;
-import rest.core.annotation.PutMapping;
-import rest.controller.Controller;
+import rest.core.annotation.*;
 import rest.dao.DepartmentDao;
 import rest.dao.EmployeeDao;
 import rest.repository.DepartmentRepository;
@@ -21,9 +17,7 @@ import rest.util.servlet.HttpMethod;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 
 import static rest.util.servlet.ServletUtil.*;
 
@@ -53,9 +47,6 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "DELETE");
-        response.setStatus(200);
         try {
             process(request, response);
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | ServletException e) {
@@ -67,15 +58,15 @@ public class DispatcherServlet extends HttpServlet {
             throws IOException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ServletException {
         String uri = request.getRequestURI();
 
-        Set<Class<? extends Controller>> entries = new Reflections("rest.controller")
-                .getSubTypesOf(Controller.class);
+        Set<Class<?>> entries = new Reflections("rest.controller")
+                .getTypesAnnotatedWith(Controller.class);
 
-        AbstractMap.SimpleEntry<? extends Class<? extends Controller>, Method> entry = entries.stream()
+        Map.Entry<? extends Class<?>, Method> entry = entries.stream()
                 .filter(clazz -> {
                     if (request.getMethod().equals(HttpMethod.GET.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(GetMapping.class)
-                                && method.getAnnotation(GetMapping.class).url().equals(uri));
+                                        && method.getAnnotation(GetMapping.class).url().equals(uri));
                     } else if (request.getMethod().equals(HttpMethod.POST.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(PostMapping.class)
@@ -84,10 +75,16 @@ public class DispatcherServlet extends HttpServlet {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(PutMapping.class)
                                         && method.getAnnotation(PutMapping.class).url().equals(uri));
-                    } else {
+                    } else if (request.getMethod().equals(HttpMethod.DELETE.name())) {
                         return Arrays.stream(clazz.getDeclaredMethods())
                                 .anyMatch(method -> method.isAnnotationPresent(DeleteMapping.class)
                                         && method.getAnnotation(DeleteMapping.class).url().equals(uri));
+                    } else if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+                        return Arrays.stream(clazz.getDeclaredMethods())
+                                .anyMatch(method -> method.isAnnotationPresent(OptionsMapping.class)
+                                        && method.getAnnotation(OptionsMapping.class).url().equals(uri));
+                    } else {
+                        throw new RuntimeException("Unknown request type");
                     }
                 })
                 .map(clazz -> {
@@ -102,14 +99,30 @@ public class DispatcherServlet extends HttpServlet {
                                 } else if (method.isAnnotationPresent(PutMapping.class)) {
                                     return method.isAnnotationPresent(PutMapping.class)
                                             && method.getAnnotation(PutMapping.class).url().equals(uri);
-                                } else {
+                                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
                                     return method.isAnnotationPresent(DeleteMapping.class)
                                             && method.getAnnotation(DeleteMapping.class).url().equals(uri);
+                                } else {
+                                    return method.isAnnotationPresent(OptionsMapping.class)
+                                            && method.getAnnotation(OptionsMapping.class).url().equals(uri);
+                                }
+                            })
+                            .filter(mappingM -> {
+                                if (request.getMethod().equals(HttpMethod.GET.name())) {
+                                    return mappingM.isAnnotationPresent(GetMapping.class);
+                                } else if (request.getMethod().equals(HttpMethod.POST.name())) {
+                                    return mappingM.isAnnotationPresent(PostMapping.class);
+                                } else if (request.getMethod().equals(HttpMethod.PUT.name())) {
+                                    return mappingM.isAnnotationPresent(PutMapping.class);
+                                } else if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+                                    return mappingM.isAnnotationPresent(OptionsMapping.class);
+                                } else {
+                                    return mappingM.isAnnotationPresent(DeleteMapping.class);
                                 }
                             })
                             .findFirst()
                             .orElseThrow(RuntimeException::new);
-                    return new AbstractMap.SimpleEntry<>(clazz, mapping);
+                    return new HashMap.SimpleEntry<>(clazz, mapping);
                 })
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
@@ -119,11 +132,18 @@ public class DispatcherServlet extends HttpServlet {
         Class<?> mappingClass = entry.getKey();
         Object result = mappingMethod.invoke(mappingClass.getConstructor().newInstance(), request, response);
 
+        if (result.toString().startsWith("redirect:/")) {
+            result = result.toString()
+                    .replaceAll("redirect:/", "")
+                    .replaceAll(".jsp", "");
+        }
+
         if (mappingMethod.isAnnotationPresent(GetMapping.class)) {
             response.setContentType("application/json; UTF-8");
             response.getWriter().write(result.toString());
         } else if (mappingMethod.isAnnotationPresent(PostMapping.class)) {
             writeStatus(response);
+            response.sendRedirect(result.toString());
         } else if (mappingMethod.isAnnotationPresent(PutMapping.class)) {
             writeStatus(response);
         } else if (mappingMethod.isAnnotationPresent(DeleteMapping.class)) {

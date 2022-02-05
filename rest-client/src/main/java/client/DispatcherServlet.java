@@ -1,6 +1,10 @@
 package client;
 
 import client.core.annotation.*;
+import client.core.annotation.mapping.DeleteMapping;
+import client.core.annotation.mapping.GetMapping;
+import client.core.annotation.mapping.PostMapping;
+import client.core.annotation.mapping.PutMapping;
 import client.util.servlet.HttpMethod;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +24,12 @@ import java.util.Set;
 public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "PUT, DELETE, POST, GET");
+        response.setStatus(200);
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+        }
         try {
             process(request, response);
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | ServletException e) {
