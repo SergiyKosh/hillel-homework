@@ -30,7 +30,7 @@ public class EmployeeDao implements Dao<Employee> {
         if (!session.getTransaction().isActive()) {
             transaction = session.beginTransaction();
         } else transaction = session.getTransaction();
-        session.update("Employee", entity);
+        session.merge("Employee", entity);
         transaction.commit();
     }
 

@@ -17,7 +17,7 @@
 </header>
 
 <body>
-<form method="post" action="/employee/edit/apply">
+<form method="post" action="http://127.0.0.1:8080/employee/update">
     <div class="form-floating mt-2">
         <div class="col-md">
             <div class="form-floating">

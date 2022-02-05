@@ -30,7 +30,7 @@ public class DepartmentDao implements Dao<Department> {
         if (!session.getTransaction().isActive()) {
             transaction = session.beginTransaction();
         } else transaction = session.getTransaction();
-        session.update(entity);
+        session.merge(entity);
         transaction.commit();
     }
 
