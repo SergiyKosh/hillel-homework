@@ -8,6 +8,7 @@ import rest.core.annotation.Controller;
 import rest.entity.Employee;
 import rest.service.EmployeeService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,16 +37,8 @@ public class EmployeeController {
         return "redirect:/http://localhost:8081/employees";
     }
 
-    @OptionsMapping(url = "/employee/delete")
-    public void options(HttpServletRequest request, HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader( "Access-Control-Allow-Headers", "*");
-        response.addHeader( "Access-Control-Allow-Methods", "*");
-        response.setStatus(200);
-    }
-
     @DeleteMapping(url = "/employee")
-    public String delete(HttpServletRequest request, HttpServletResponse response) {
+    public String delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         service.delete(request);
         return "redirect:/http://localhost:8081/employees";
     }

@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.reflections.Reflections;
 import rest.core.annotation.*;
 import rest.core.annotationimpl.AnnotationImpl;
 import rest.dao.DepartmentDao;
@@ -14,12 +13,11 @@ import rest.dao.EmployeeDao;
 import rest.repository.DepartmentRepository;
 import rest.repository.EmployeeRepository;
 import rest.util.hibernate.HibernateConfiguration;
-import rest.util.servlet.HttpMethod;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Map;
 
 import static rest.util.servlet.ServletUtil.*;
 
@@ -97,8 +95,10 @@ public class DispatcherServlet extends HttpServlet {
             response.sendRedirect(result.toString());
         } else if (mappingMethod.isAnnotationPresent(PutMapping.class)) {
             writeStatus(response);
+            response.sendRedirect(result.toString());
         } else if (mappingMethod.isAnnotationPresent(DeleteMapping.class)) {
             writeStatus(response);
+            response.sendRedirect(result.toString());
         }
     }
 

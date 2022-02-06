@@ -32,23 +32,39 @@
             <td>${department.getName()}</td>
             <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
             <td>
-                <form>
-                    <input type="hidden" id="id" name="id" value="${department.getId()}">
-                    <input type="hidden" id="name" name="name" value="${department.getName()}">
-                    <button type="button" onclick="clicked()">delete</button>
+                <form id="delete-form" name="delete-form">
+                    <input type="text" id="id" name="id" value="${department.getId()}">
+                    <button type="submit">delete</button>
                 </form>
                 <script type="text/javascript">
-                    function clicked() {
-                        $.ajax({
-                            url: "http://127.0.0.1:8080/department/delete",
-                            contentType: "application/json",
-                            type: "DELETE",
-                            data: {
-                                "test123": "324123"
-                            }
+                    // function clicked() {
+                    //     $.ajax({
+                    //         url: "http://127.0.0.1:8080/department/delete",
+                    //         contentType: "application/json",
+                    //         type: "DELETE",
+                    //         data: JSON.stringify({id : $('#id').val()})
+                    //     })
+                    // }
 
-                        })
-                    }
+                    $(document).ready(function () {
+                        $("delete-form").submit(function (event) {
+                            var formData = {
+                                id: $("#id").val()
+                            };
+
+                            $.ajax({
+                                type: "DELETE",
+                                url: "http://127.0.0.1:8080/employee",
+                                data: formData,
+                                dataType: "json",
+                                encode: true,
+                            }).done(function (data) {
+                                console.log(data);
+                            });
+
+                            event.preventDefault();
+                        });
+                    });
                 </script>
             </td>
         </tr>

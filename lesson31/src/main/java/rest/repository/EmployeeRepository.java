@@ -13,6 +13,8 @@ public class EmployeeRepository implements Repository<Employee> {
     private final Session session;
     @Override
     public List<Employee> findAll() {
-        return session.createQuery(SELECT_ALL_EMPLOYEES, Employee.class).getResultList();
+        List<Employee> employees = session.createQuery(SELECT_ALL_EMPLOYEES, Employee.class).getResultList();
+        session.clear();
+        return employees;
     }
 }

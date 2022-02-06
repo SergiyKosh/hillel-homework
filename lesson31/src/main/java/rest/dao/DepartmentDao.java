@@ -14,10 +14,12 @@ public class DepartmentDao implements Dao<Department> {
         Transaction transaction = session.getTransaction();
         session.save(entity);
         transaction.commit();
+        session.clear();
     }
 
     @Override
     public Department get(long id) {
+        session.clear();
         return session.get(Department.class, id);
     }
 
@@ -26,6 +28,7 @@ public class DepartmentDao implements Dao<Department> {
         Transaction transaction = session.getTransaction();
         session.merge(entity);
         transaction.commit();
+        session.clear();
     }
 
     @Override
@@ -33,5 +36,6 @@ public class DepartmentDao implements Dao<Department> {
         Transaction transaction = session.getTransaction();
         session.delete(entity);
         transaction.commit();
+        session.clear();
     }
 }

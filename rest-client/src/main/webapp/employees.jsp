@@ -34,17 +34,12 @@
             <td>${employee.getSalary()}</td>
             <td>${employee.getChiefId()}</td>
             <td><a href="/employee/edit?id=${employee.getId()}" class="btn btn-link">Edit</a></td>
-
-            <form>
-                <td>
-                    <input type="hidden" name="departmentId" value="${employee.getDepartment().getId()}">
-                    <input type="hidden" name="id" value="${employee.getId()}">
-                    <input type="hidden" name="name" value="${employee.getName()}">
-                    <input type="hidden" name="salary" value="${employee.getSalary()}">
-                    <input type="hidden" name="chiefId" value="${employee.getChiefId()}">
-                    <button type="button" onclick="clicked()" class="btn btn-danger">Delete</button>
-                </td>
-            </form>
+            <td>
+                <form id="delete-form" name="delete-form">
+                    <input type="hidden" id="id" name="id" value="${employee.getId()}">
+                    <button type="button" onclick="deleteData()">Delete</button>
+                </form>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
@@ -53,19 +48,14 @@
 <%--        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>--%>
 </body>
 <script type="application/javascript">
-    function clicked() {
+    function deleteData() {
         $.ajax({
-            url: "http://127.0.0.1:8080/employee/delete",
-            contentType: "application/json",
             type: "DELETE",
-            data: {
-                "departmentId" : $('departmentId').val(),
-                "id" : $('id').val(),
-                "name" : $('name').val(),
-                "salary" : $('salary').val(),
-                "chiefId" : $('chiefId').val()
-            }
-        })
+            url: "http://127.0.0.1:8080/employee",
+            data: $('#delete-form').serialize()
+        }).done(function (data) {
+            console.log(data);
+        });
     }
 </script>
 </html>

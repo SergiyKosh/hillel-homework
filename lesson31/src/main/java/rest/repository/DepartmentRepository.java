@@ -14,6 +14,8 @@ public class DepartmentRepository implements Repository<Department> {
 
     @Override
     public List<Department> findAll() {
-        return session.createQuery(SELECT_ALL_DEPARTMENTS, Department.class).getResultList();
+        List<Department> departments = session.createQuery(SELECT_ALL_DEPARTMENTS, Department.class).getResultList();
+        session.clear();
+        return departments;
     }
 }

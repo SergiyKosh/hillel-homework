@@ -14,11 +14,14 @@ public class EmployeeDao implements Dao<Employee> {
         Transaction transaction = session.beginTransaction();
         session.save(entity);
         transaction.commit();
+        session.clear();
     }
 
     @Override
     public Employee get(long id) {
-        return session.get(Employee.class, id);
+        Employee employee = session.get(Employee.class, id);
+        session.clear();
+        return employee;
     }
 
     @Override
@@ -26,6 +29,7 @@ public class EmployeeDao implements Dao<Employee> {
         Transaction transaction = session.beginTransaction();
         session.merge("Employee", entity);
         transaction.commit();
+        session.clear();
     }
 
     @Override
@@ -33,5 +37,6 @@ public class EmployeeDao implements Dao<Employee> {
         Transaction transaction = session.beginTransaction();
         session.remove(entity);
         transaction.commit();
+        session.clear();
     }
 }

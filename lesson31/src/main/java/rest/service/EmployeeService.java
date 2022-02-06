@@ -1,9 +1,12 @@
 package rest.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import rest.core.util.IdBody;
 import rest.entity.Department;
 import rest.entity.Employee;
 
+import java.io.IOException;
 import java.util.List;
 
 import static rest.util.Constants.*;
@@ -50,8 +53,20 @@ public class EmployeeService {
         EMPLOYEE_DAO.update(getEmployee(request));
     }
 
-    public void delete(HttpServletRequest request) {
-        Employee employee = EMPLOYEE_DAO.get(Long.parseLong(request.getParameter(ID_FIELD)));
+    public void delete(HttpServletRequest request) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int count;
+        while ((count = request.getInputStream().read()) != -1) {
+            sb.append((char) count);
+        }
+
+        String id = sb.toString()
+                .replaceAll("[a-zA-Z]", "")
+                .replaceAll("=", "");
+
+        long empId = Long.parseLong(id);
+
+        Employee employee = EMPLOYEE_DAO.get(empId);
         EMPLOYEE_DAO.delete(employee);
     }
 }

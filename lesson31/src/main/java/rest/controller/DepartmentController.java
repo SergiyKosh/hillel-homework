@@ -7,6 +7,7 @@ import rest.core.annotation.*;
 import rest.entity.Department;
 import rest.service.DepartmentService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -35,7 +36,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping(url = "/department/delete")
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         service.delete(request);
     }
 }

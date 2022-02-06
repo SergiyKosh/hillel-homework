@@ -3,8 +3,10 @@ package rest.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import rest.core.util.IdBody;
 import rest.entity.Department;
 
+import java.io.IOException;
 import java.util.List;
 
 import static rest.util.Constants.ID_FIELD;
@@ -39,8 +41,9 @@ public class DepartmentService {
         DEPARTMENT_DAO.update(department);
     }
 
-    public void delete(HttpServletRequest request) {
-        Department department = DEPARTMENT_DAO.get(Long.parseLong(request.getParameter(ID_FIELD)));
-        DEPARTMENT_DAO.delete(department);
+    public void delete(HttpServletRequest request) throws IOException {
+        IdBody id = new ObjectMapper().readValue(request.getInputStream().readAllBytes(), IdBody.class);
+//        Department department = DEPARTMENT_DAO.get(id.getId());
+//        DEPARTMENT_DAO.delete(department);
     }
 }
