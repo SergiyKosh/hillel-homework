@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import rest.entity.Department;
 
+import java.util.List;
+
 import static rest.util.Constants.ID_FIELD;
 import static rest.util.Constants.NAME_FIELD;
 import static rest.util.servlet.ServletUtil.DEPARTMENT_DAO;
@@ -20,14 +22,13 @@ public class DepartmentService {
         DEPARTMENT_DAO.save(department);
     }
 
-    public String read(HttpServletRequest request) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
+    public Department read(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter(ID_FIELD));
-        return mapper.writeValueAsString(DEPARTMENT_DAO.get(id));
+        return DEPARTMENT_DAO.get(id);
     }
 
-    public String readAll() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(DEPARTMENT_REPOSITORY.findAll());
+    public List<Department> readAll() throws JsonProcessingException {
+        return DEPARTMENT_REPOSITORY.findAll();
     }
 
     public void update(HttpServletRequest request) {

@@ -5,19 +5,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import rest.core.annotation.*;
 import rest.core.annotation.Controller;
+import rest.entity.Employee;
 import rest.service.EmployeeService;
+
+import java.util.List;
 
 @Controller
 public class EmployeeController {
     private final EmployeeService service = new EmployeeService();
 
     @GetMapping(url = "/employees")
-    public String findAll(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public List<Employee> findAll(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         return service.readAll();
     }
 
     @GetMapping(url = "/employee")
-    public String get(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public Employee get(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         return service.read(request);
     }
 

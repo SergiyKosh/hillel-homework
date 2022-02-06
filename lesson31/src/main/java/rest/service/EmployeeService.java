@@ -8,6 +8,7 @@ import rest.entity.Employee;
 
 import javax.swing.text.html.Option;
 import java.sql.Types;
+import java.util.List;
 import java.util.Optional;
 
 import static rest.util.Constants.*;
@@ -41,14 +42,13 @@ public class EmployeeService {
         EMPLOYEE_DAO.save(getEmployee(request));
     }
 
-    public String read(HttpServletRequest request) throws JsonProcessingException {
+    public Employee read(HttpServletRequest request) throws JsonProcessingException {
         long id = Long.parseLong(request.getParameter(ID_FIELD));
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(EMPLOYEE_DAO.get(id));
+        return EMPLOYEE_DAO.get(id);
     }
 
-    public String readAll() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(EMPLOYEE_REPOSITORY.findAll());
+    public List<Employee> readAll() throws JsonProcessingException {
+        return EMPLOYEE_REPOSITORY.findAll();
     }
 
     public void update(HttpServletRequest request) {

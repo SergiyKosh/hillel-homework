@@ -1,5 +1,6 @@
 package rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -139,8 +140,23 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         if (mappingMethod.isAnnotationPresent(GetMapping.class)) {
-            response.setContentType("application/json; UTF-8");
-            response.getWriter().write(result.toString());
+            if (mappingClass.getAnnotation(Controller.class).isMicroservice()) {
+                response.setContentType("application/json; UTF-8");
+                ObjectMapper mapper = new ObjectMapper();
+                String returned = mapper.writeValueAsString(result);
+                response.getWriter().write(returned);
+            } else {
+                if (result.toString().startsWith("redirect:")) {
+                    result = result.toString()
+                            .replaceAll("redirect:", "")
+                            .replaceAll(".jsp", "");
+                } else {
+                    if (!result.toString().endsWith(".jsp")) {
+                        result += ".jsp";
+                    }
+                }
+                request.getRequestDispatcher(result.toString()).forward(request, response);
+            }
         } else if (mappingMethod.isAnnotationPresent(PostMapping.class)) {
             writeStatus(response);
             response.sendRedirect(result.toString());
