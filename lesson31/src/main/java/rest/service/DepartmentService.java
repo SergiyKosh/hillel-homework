@@ -1,49 +1,116 @@
 package rest.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import rest.core.util.IdBody;
-import rest.entity.Department;
+import rest.exceptions.DepartmentBusinessException;
+import rest.exceptions.DepartmentDaoException;
+import rest.model.dao.DepartmentDao;
+import rest.model.dao.DepartmentDatabaseDao;
+import rest.model.entity.Department;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static rest.util.Constants.ID_FIELD;
-import static rest.util.Constants.NAME_FIELD;
-import static rest.util.servlet.ServletUtil.DEPARTMENT_DAO;
-import static rest.util.servlet.ServletUtil.DEPARTMENT_REPOSITORY;
+import static rest.util.FieldsConst.*;
 
 public class DepartmentService {
+    private final DepartmentDao departmentDao;
 
-    public void create(HttpServletRequest request) {
-        Department department = Department.builder()
-                .id(Long.parseLong(request.getParameter(ID_FIELD)))
-                .name(request.getParameter(NAME_FIELD))
-                .build();
-        DEPARTMENT_DAO.save(department);
+    public DepartmentService() {
+        this.departmentDao = new DepartmentDatabaseDao();
     }
 
-    public Department read(HttpServletRequest request) {
-        long id = Long.parseLong(request.getParameter(ID_FIELD));
-        return DEPARTMENT_DAO.get(id);
+    public void add(HttpServletRequest request) throws DepartmentBusinessException {
+        try {
+            int counter;
+            StringBuilder str = new StringBuilder();
+
+            while ((counter = request.getInputStream().read()) != -1) {
+                str.append((char) counter);
+            }
+
+            String[] params = str.toString().split("&");
+            Object[] paramsObj = Arrays.stream(params)
+                    .map(s -> s.replaceAll("[a-zA-Z]", "")
+                            .replaceAll("&", "")
+                            .replaceAll("=", "")
+                    ).toArray();
+            params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
+            long id = Long.parseLong(params[0]);
+            Department department = Department.builder()
+                    .id(id)
+                    .name(params[1])
+                    .build();
+
+            departmentDao.add(department);
+        } catch (DepartmentDaoException | IOException e) {
+            throw new DepartmentBusinessException(e);
+        }
     }
 
-    public List<Department> readAll() {
-        return DEPARTMENT_REPOSITORY.findAll();
+    public void update(HttpServletRequest request) throws DepartmentBusinessException {
+        try {
+            int counter;
+            StringBuilder str = new StringBuilder();
+
+            while ((counter = request.getInputStream().read()) != -1) {
+                str.append((char) counter);
+            }
+
+            String[] params = str.toString().split("&");
+            Object[] paramsObj = Arrays.stream(params)
+                    .map(s -> s.replaceAll("[a-zA-Z]", "")
+                            .replaceAll("&", "")
+                            .replaceAll("=", "")
+                    ).toArray();
+            params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
+            long id = Long.parseLong(params[0]);
+
+            Department department = Department.builder()
+                    .id(id)
+                    .name(params[1])
+                    .build();
+
+            departmentDao.update(department);
+        } catch (DepartmentDaoException | IOException e) {
+            throw new DepartmentBusinessException(e);
+        }
     }
 
-    public void update(HttpServletRequest request) {
-        Department department = Department.builder()
-                .id(Long.parseLong(request.getParameter(ID_FIELD)))
-                .name(request.getParameter(NAME_FIELD))
-                .build();
-        DEPARTMENT_DAO.update(department);
+    public void delete(HttpServletRequest request) throws DepartmentBusinessException, IOException {
+        try {
+            int counter;
+            StringBuilder str = new StringBuilder();
+            while ((counter = request.getInputStream().read()) != -1) {
+                str.append((char) counter);
+            }
+
+            long id = Long.parseLong(
+                    str.toString().replaceAll("[a-zA-z]", "")
+                            .replaceAll("=", "")
+            );
+
+            departmentDao.delete(id);
+        } catch (DepartmentDaoException e) {
+            throw new DepartmentBusinessException(e);
+        }
     }
 
-    public void delete(HttpServletRequest request) throws IOException {
-        IdBody id = new ObjectMapper().readValue(request.getInputStream().readAllBytes(), IdBody.class);
-//        Department department = DEPARTMENT_DAO.get(id.getId());
-//        DEPARTMENT_DAO.delete(department);
+    public Department get(HttpServletRequest request) throws DepartmentBusinessException {
+        try {
+            long id = Long.parseLong(request.getParameter(DEP_ID));
+            return departmentDao.get(id);
+        } catch (DepartmentDaoException e) {
+            throw new DepartmentBusinessException(e);
+        }
+    }
+
+    public List<Department> findAll() throws DepartmentBusinessException {
+        try {
+            return departmentDao.findAll();
+        } catch (DepartmentDaoException e) {
+            throw new DepartmentBusinessException(e);
+        }
     }
 }

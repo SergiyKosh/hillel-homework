@@ -1,10 +1,10 @@
 package rest.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import rest.core.annotation.*;
-import rest.entity.Department;
+import rest.exceptions.DepartmentBusinessException;
+import rest.model.entity.Department;
 import rest.service.DepartmentService;
 
 import java.io.IOException;
@@ -15,28 +15,29 @@ public class DepartmentController {
     private final DepartmentService service = new DepartmentService();
 
     @GetMapping(url = "/departments")
-    public List<Department> findAll(HttpServletRequest request, HttpServletResponse response) {
-        return service.readAll();
+    public List<Department> findAll(HttpServletRequest request, HttpServletResponse response) throws DepartmentBusinessException {
+        return service.findAll();
     }
 
     @GetMapping(url = "/department")
-    public Department get(HttpServletRequest request, HttpServletResponse response) {
-        return service.read(request);
+    public Department get(HttpServletRequest request, HttpServletResponse response) throws DepartmentBusinessException {
+        return service.get(request);
     }
 
     @PutMapping(url = "/department/add")
-    public void add(HttpServletRequest request, HttpServletResponse response) {
-        service.create(request);
+    public String add(HttpServletRequest request, HttpServletResponse response) throws DepartmentBusinessException {
+        service.add(request);
+        return "redirect:/http://localhost:8081/departments";
     }
 
     @PostMapping(url = "/department/update")
-    public String update(HttpServletRequest request, HttpServletResponse response) {
+    public String update(HttpServletRequest request, HttpServletResponse response) throws DepartmentBusinessException {
         service.update(request);
         return "redirect:/http://localhost:8081/departments";
     }
 
     @DeleteMapping(url = "/department/delete")
-    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, DepartmentBusinessException {
         service.delete(request);
     }
 }

@@ -8,41 +8,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import rest.core.annotation.*;
 import rest.core.annotationimpl.AnnotationImpl;
-import rest.dao.DepartmentDao;
-import rest.dao.EmployeeDao;
-import rest.repository.DepartmentRepository;
-import rest.repository.EmployeeRepository;
-import rest.util.hibernate.HibernateConfiguration;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import static rest.util.servlet.ServletUtil.*;
+import static rest.util.servlet.ServletUtil.writeStatus;
 
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-
-        EMPLOYEE_DAO = EmployeeDao.builder()
-                .session(HibernateConfiguration.getSession())
-                .build();
-
-        DEPARTMENT_DAO = DepartmentDao.builder()
-                .session(HibernateConfiguration.getSession())
-                .build();
-
-        EMPLOYEE_REPOSITORY = EmployeeRepository.builder()
-                .session(HibernateConfiguration.getSession())
-                .build();
-
-        DEPARTMENT_REPOSITORY = DepartmentRepository
-                .builder()
-                .session(HibernateConfiguration.getSession())
-                .build();
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -104,7 +87,6 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        HibernateConfiguration.getSession().close();
     }
 }
 
