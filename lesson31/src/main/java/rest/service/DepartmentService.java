@@ -27,7 +27,7 @@ public class DepartmentService {
         return DEPARTMENT_DAO.get(id);
     }
 
-    public List<Department> readAll() throws JsonProcessingException {
+    public List<Department> readAll() {
         return DEPARTMENT_REPOSITORY.findAll();
     }
 

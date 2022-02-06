@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.reflections.Reflections;
 import rest.core.annotation.*;
+import rest.core.annotationimpl.AnnotationImpl;
 import rest.dao.DepartmentDao;
 import rest.dao.EmployeeDao;
 import rest.repository.DepartmentRepository;
@@ -59,78 +60,12 @@ public class DispatcherServlet extends HttpServlet {
             throws IOException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ServletException {
         String uri = request.getRequestURI();
 
-        Set<Class<?>> entries = new Reflections("rest.controller")
-                .getTypesAnnotatedWith(Controller.class);
+        AnnotationImpl annotationImpl = new AnnotationImpl();
 
-        Map.Entry<? extends Class<?>, Method> entry = entries.stream()
-                .filter(clazz -> {
-                    if (request.getMethod().equals(HttpMethod.GET.name())) {
-                        return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(GetMapping.class)
-                                        && method.getAnnotation(GetMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals(HttpMethod.POST.name())) {
-                        return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(PostMapping.class)
-                                        && method.getAnnotation(PostMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals(HttpMethod.PUT.name())) {
-                        return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(PutMapping.class)
-                                        && method.getAnnotation(PutMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals(HttpMethod.DELETE.name())) {
-                        return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(DeleteMapping.class)
-                                        && method.getAnnotation(DeleteMapping.class).url().equals(uri));
-                    } else if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
-                        return Arrays.stream(clazz.getDeclaredMethods())
-                                .anyMatch(method -> method.isAnnotationPresent(OptionsMapping.class)
-                                        && method.getAnnotation(OptionsMapping.class).url().equals(uri));
-                    } else {
-                        throw new RuntimeException("Unknown request type");
-                    }
-                })
-                .map(clazz -> {
-                    Method mapping = Arrays.stream(clazz.getDeclaredMethods())
-                            .filter(method -> {
-                                if (method.isAnnotationPresent(GetMapping.class)) {
-                                    return method.isAnnotationPresent(GetMapping.class)
-                                            && method.getAnnotation(GetMapping.class).url().equals(uri);
-                                } else if (method.isAnnotationPresent(PostMapping.class)) {
-                                    return method.isAnnotationPresent(PostMapping.class)
-                                            && method.getAnnotation(PostMapping.class).url().equals(uri);
-                                } else if (method.isAnnotationPresent(PutMapping.class)) {
-                                    return method.isAnnotationPresent(PutMapping.class)
-                                            && method.getAnnotation(PutMapping.class).url().equals(uri);
-                                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-                                    return method.isAnnotationPresent(DeleteMapping.class)
-                                            && method.getAnnotation(DeleteMapping.class).url().equals(uri);
-                                } else {
-                                    return method.isAnnotationPresent(OptionsMapping.class)
-                                            && method.getAnnotation(OptionsMapping.class).url().equals(uri);
-                                }
-                            })
-                            .filter(mappingM -> {
-                                if (request.getMethod().equals(HttpMethod.GET.name())) {
-                                    return mappingM.isAnnotationPresent(GetMapping.class);
-                                } else if (request.getMethod().equals(HttpMethod.POST.name())) {
-                                    return mappingM.isAnnotationPresent(PostMapping.class);
-                                } else if (request.getMethod().equals(HttpMethod.PUT.name())) {
-                                    return mappingM.isAnnotationPresent(PutMapping.class);
-                                } else if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
-                                    return mappingM.isAnnotationPresent(OptionsMapping.class);
-                                } else {
-                                    return mappingM.isAnnotationPresent(DeleteMapping.class);
-                                }
-                            })
-                            .findFirst()
-                            .orElseThrow(RuntimeException::new);
-                    return new HashMap.SimpleEntry<>(clazz, mapping);
-                })
-                .findFirst()
-                .orElseThrow(RuntimeException::new);
+        Map.Entry<? extends Class<?>, Method> mappingMethods = annotationImpl.getMappingMethods(uri, request);
 
-
-        Method mappingMethod = entry.getValue();
-        Class<?> mappingClass = entry.getKey();
+        Method mappingMethod = mappingMethods.getValue();
+        Class<?> mappingClass = mappingMethods.getKey();
         Object result = mappingMethod.invoke(mappingClass.getConstructor().newInstance(), request, response);
 
         if (result.toString().startsWith("redirect:/")) {

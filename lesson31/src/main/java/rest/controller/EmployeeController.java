@@ -15,22 +15,22 @@ public class EmployeeController {
     private final EmployeeService service = new EmployeeService();
 
     @GetMapping(url = "/employees")
-    public List<Employee> findAll(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public List<Employee> findAll(HttpServletRequest request, HttpServletResponse response) {
         return service.readAll();
     }
 
     @GetMapping(url = "/employee")
-    public Employee get(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public Employee get(HttpServletRequest request, HttpServletResponse response) {
         return service.read(request);
     }
 
-    @PutMapping(url = "/employee/add")
+    @PutMapping(url = "/employees")
     public String save(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         service.create(request);
         return "redirect:/http://localhost:8081/employees";
     }
 
-    @PostMapping(url = "/employee/update")
+    @PostMapping(url = "/employee")
     public String update(HttpServletRequest request, HttpServletResponse response) {
         service.update(request);
         return "redirect:/http://localhost:8081/employees";
@@ -44,7 +44,7 @@ public class EmployeeController {
         response.setStatus(200);
     }
 
-    @DeleteMapping(url = "/employee/delete")
+    @DeleteMapping(url = "/employee")
     public String delete(HttpServletRequest request, HttpServletResponse response) {
         service.delete(request);
         return "redirect:/http://localhost:8081/employees";

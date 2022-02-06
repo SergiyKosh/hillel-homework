@@ -30,8 +30,8 @@ public class EmployeeDao implements Dao<Employee> {
 
     @Override
     public void delete(Employee entity) {
-        Transaction transaction = session.getTransaction();
-        session.delete(entity);
+        Transaction transaction = session.beginTransaction();
+        session.remove(entity);
         transaction.commit();
     }
 }

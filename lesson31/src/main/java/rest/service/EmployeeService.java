@@ -1,15 +1,10 @@
 package rest.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import rest.entity.Department;
 import rest.entity.Employee;
 
-import javax.swing.text.html.Option;
-import java.sql.Types;
 import java.util.List;
-import java.util.Optional;
 
 import static rest.util.Constants.*;
 import static rest.util.servlet.ServletUtil.*;
@@ -42,12 +37,12 @@ public class EmployeeService {
         EMPLOYEE_DAO.save(getEmployee(request));
     }
 
-    public Employee read(HttpServletRequest request) throws JsonProcessingException {
+    public Employee read(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter(ID_FIELD));
         return EMPLOYEE_DAO.get(id);
     }
 
-    public List<Employee> readAll() throws JsonProcessingException {
+    public List<Employee> readAll() {
         return EMPLOYEE_REPOSITORY.findAll();
     }
 
@@ -56,6 +51,7 @@ public class EmployeeService {
     }
 
     public void delete(HttpServletRequest request) {
-        EMPLOYEE_DAO.delete(getEmployee(request));
+        Employee employee = EMPLOYEE_DAO.get(Long.parseLong(request.getParameter(ID_FIELD)));
+        EMPLOYEE_DAO.delete(employee);
     }
 }

@@ -14,12 +14,12 @@ public class DepartmentController {
     private final DepartmentService service = new DepartmentService();
 
     @GetMapping(url = "/departments")
-    public List<Department> findAll(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public List<Department> findAll(HttpServletRequest request, HttpServletResponse response) {
         return service.readAll();
     }
 
     @GetMapping(url = "/department")
-    public Department get(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    public Department get(HttpServletRequest request, HttpServletResponse response) {
         return service.read(request);
     }
 
