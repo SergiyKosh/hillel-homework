@@ -27,7 +27,8 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/employees">Employees</a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -47,22 +48,26 @@
 </header>
 
 <body>
-<form id="put-form" name="put-form">
-    <div class="form-floating mt-2">
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="id">
-                <label for="floatingInputGrid">Department id</label>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <form id="put-form" name="put-form">
+            <div class="form-floating mt-2">
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" placeholder="Id" name="id">
+                        <label for="floatingInputGrid">Department id</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" placeholder="Name" name="name">
+                        <label for="floatingInputGrid">Name</label>
+                    </div>
+                </div>
+                <button type="button" onclick="putData()" class="btn btn-primary">Add new department</button>
             </div>
-        </div>
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="name">
-                <label for="floatingInputGrid">Name</label>
-            </div>
-        </div>
-        <button type="button" onclick="putData()" class="btn btn-primary">Add new department</button>
+        </form>
     </div>
-</form>
+</div>
 </body>
 </html>

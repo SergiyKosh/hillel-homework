@@ -27,7 +27,8 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/employees">Employees</a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -50,40 +51,44 @@
 </header>
 
 <body>
-<form method="post" id="form" action="http://127.0.0.1:8080/employee">
-    <div class="form-floating mt-2">
-        <input type="hidden" name="id" value="${employee.getId()}">
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="departmentId"
-                       placeholder="${employee.getDepartmentId()}" value="${employee.getDepartmentId()}">
-                <label for="floatingInputGrid">Department id</label>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <form method="post" id="form" action="http://127.0.0.1:8080/employee">
+            <div class="form-floating mt-2">
+                <input type="hidden" name="id" value="${employee.getId()}">
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" name="departmentId"
+                               placeholder="${employee.getDepartmentId()}" value="${employee.getDepartmentId()}">
+                        <label for="floatingInputGrid">Department id</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" name="name"
+                               placeholder="${employee.getName()}" value="${employee.getName()}">
+                        <label for="floatingInputGrid">Name</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" name="salary"
+                               placeholder="${employee.getSalary()}" value="${employee.getSalary()}">
+                        <label for="floatingInputGrid">Salary</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInputGrid" name="chiefId"
+                               placeholder="${employee.getChiefId()}" value="${employee.getChiefId()}">
+                        <label for="floatingInputGrid">Chief id</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="button" onclick="deleteData()" class="btn btn-danger">Delete</button>
             </div>
-        </div>
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="name"
-                       placeholder="${employee.getName()}" value="${employee.getName()}">
-                <label for="floatingInputGrid">Name</label>
-            </div>
-        </div>
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="salary"
-                       placeholder="${employee.getSalary()}" value="${employee.getSalary()}">
-                <label for="floatingInputGrid">Salary</label>
-            </div>
-        </div>
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" name="chiefId"
-                       placeholder="${employee.getChiefId()}" value="${employee.getChiefId()}">
-                <label for="floatingInputGrid">Chief id</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Edit employee</button>
-        <button type="button" onclick="deleteData()">delete</button>
+        </form>
     </div>
-</form>
+</div>
 </body>
 </html>
