@@ -13,7 +13,8 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/employees">Employees</a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,27 +33,31 @@
     </nav>
 </header>
 
-<body>
-<table class="table table-dark mt-2">
-    <thead>
-    <th scope="row">Department</th>
-    <th scope="row">Employee name</th>
-    <th scope="row">Salary</th>
-    <th scope="row">Chief id</th>
-    <td></td>
-    </thead>
-    <tbody>
-    <c:forEach var="employee" items="${employees}">
-        <tr>
-            <td>${employee.getId()}</td>
-            <td>${employee.getName()}</td>
-            <td>${employee.getSalary()}</td>
-            <td>${employee.getChiefId()}</td>
-            <td><a href="/employee/edit?id=${employee.getId()}" class="btn btn-link">Edit</a></td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<body style="background-color: #212529">
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <table class="table table-dark mt-2">
+            <thead>
+            <th scope="row">Department</th>
+            <th scope="row">Employee name</th>
+            <th scope="row">Salary</th>
+            <th scope="row">Chief id</th>
+            <td></td>
+            </thead>
+            <tbody>
+            <c:forEach var="employee" items="${employees}">
+                <tr>
+                    <td>${employee.getId()}</td>
+                    <td>${employee.getName()}</td>
+                    <td>${employee.getSalary()}</td>
+                    <td>${employee.getChiefId()}</td>
+                    <td><a href="/employee/edit?id=${employee.getId()}" class="btn btn-link">Edit</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

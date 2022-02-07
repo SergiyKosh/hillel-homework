@@ -50,21 +50,21 @@
     </nav>
 </header>
 
-<body>
+<body style="background-color: #212529">
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <form method="post" id="form" action="http://localhost:8080/department/update">
             <div class="form-floating mt-2">
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="id"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="id"
                                placeholder="${department.getId()}" value="${department.getId()}">
                         <label for="floatingInputGrid">Department id</label>
                     </div>
                 </div>
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="name"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="name"
                                placeholder="${department.getName()}" value="${department.getName()}">
                         <label for="floatingInputGrid">Name</label>
                     </div>

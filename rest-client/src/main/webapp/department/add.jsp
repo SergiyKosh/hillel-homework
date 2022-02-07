@@ -47,20 +47,20 @@
     </nav>
 </header>
 
-<body>
+<body style="background-color: #212529">
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <form id="put-form" name="put-form">
             <div class="form-floating mt-2">
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" placeholder="Id" name="id">
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" placeholder="Id" name="id">
                         <label for="floatingInputGrid">Department id</label>
                     </div>
                 </div>
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" placeholder="Name" name="name">
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" placeholder="Name" name="name">
                         <label for="floatingInputGrid">Name</label>
                     </div>
                 </div>

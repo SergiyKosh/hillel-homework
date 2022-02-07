@@ -50,7 +50,7 @@
     </nav>
 </header>
 
-<body>
+<body style="background-color: #212529">
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <form method="post" id="form" action="http://127.0.0.1:8080/employee">
@@ -58,28 +58,28 @@
                 <input type="hidden" name="id" value="${employee.getId()}">
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="departmentId"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="departmentId"
                                placeholder="${employee.getDepartmentId()}" value="${employee.getDepartmentId()}">
                         <label for="floatingInputGrid">Department id</label>
                     </div>
                 </div>
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="name"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="name"
                                placeholder="${employee.getName()}" value="${employee.getName()}">
                         <label for="floatingInputGrid">Name</label>
                     </div>
                 </div>
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="salary"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="salary"
                                placeholder="${employee.getSalary()}" value="${employee.getSalary()}">
                         <label for="floatingInputGrid">Salary</label>
                     </div>
                 </div>
                 <div class="col-md mb-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGrid" name="chiefId"
+                        <input style="background-color: #6c757d; border: none;" type="text" class="form-control" id="floatingInputGrid" name="chiefId"
                                placeholder="${employee.getChiefId()}" value="${employee.getChiefId()}">
                         <label for="floatingInputGrid">Chief id</label>
                     </div>

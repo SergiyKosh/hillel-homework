@@ -47,23 +47,27 @@
     </nav>
 </header>
 
-<body>
-<table class="table table-dark mt-2">
-    <thead>
-    <th scope="row">Id</th>
-    <th scope="row">Department name</th>
-    <td></td>
-    </thead>
-    <tbody>
-    <c:forEach var="department" items="${departments}">
-        <tr>
-            <td>${department.getId()}</td>
-            <td>${department.getName()}</td>
-            <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<body style="background-color: #212529">
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <table class="table table-dark mt-2">
+            <thead>
+            <th scope="row">Id</th>
+            <th scope="row">Department name</th>
+            <td></td>
+            </thead>
+            <tbody>
+            <c:forEach var="department" items="${departments}">
+                <tr>
+                    <td>${department.getId()}</td>
+                    <td>${department.getName()}</td>
+                    <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
