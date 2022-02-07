@@ -17,6 +17,7 @@
             data: $('#delete-form').serialize()
         }).done(function (data) {
             console.log(data);
+            window.location.href = '/departments'
         });
     }
 </script>
@@ -62,7 +63,7 @@
             <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
             <td>
                 <form id="delete-form" name="delete-form">
-                    <input type="text" id="id" name="id" value="${department.getId()}">
+                    <input type="hidden" id="id" name="id" value="${department.getId()}">
                     <button type="button" onclick="deleteData()">delete</button>
                 </form>
             </td>
