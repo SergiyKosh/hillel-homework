@@ -20,27 +20,31 @@ public class DepartmentService {
         this.departmentDao = new DepartmentDatabaseDao();
     }
 
+    private Department buildDepartment(HttpServletRequest request) throws IOException {
+        int counter;
+        StringBuilder str = new StringBuilder();
+
+        while ((counter = request.getInputStream().read()) != -1) {
+            str.append((char) counter);
+        }
+
+        String[] params = str.toString().split("&");
+        Object[] paramsObj = Arrays.stream(params)
+                .map(s -> s.replaceAll("id=", "")
+                        .replaceAll("name=", "")
+                ).toArray();
+        params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
+        long id = Long.parseLong(params[0]);
+
+        return Department.builder()
+                .id(id)
+                .name(params[1])
+                .build();
+    }
+
     public void add(HttpServletRequest request) throws DepartmentBusinessException {
         try {
-            int counter;
-            StringBuilder str = new StringBuilder();
-
-            while ((counter = request.getInputStream().read()) != -1) {
-                str.append((char) counter);
-            }
-
-            String[] params = str.toString().split("&");
-            Object[] paramsObj = Arrays.stream(params)
-                    .map(s -> s.replaceAll("id=", "")
-                            .replaceAll("name=", "")
-                    ).toArray();
-            params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
-            long id = Long.parseLong(params[0]);
-            Department department = Department.builder()
-                    .id(id)
-                    .name(params[1])
-                    .build();
-
+            Department department = buildDepartment(request);
             departmentDao.add(department);
         } catch (DepartmentDaoException | IOException e) {
             throw new DepartmentBusinessException(e);
@@ -49,25 +53,7 @@ public class DepartmentService {
 
     public void update(HttpServletRequest request) throws DepartmentBusinessException {
         try {
-            int counter;
-            StringBuilder str = new StringBuilder();
-
-            while ((counter = request.getInputStream().read()) != -1) {
-                str.append((char) counter);
-            }
-
-            String[] params = str.toString().split("&");
-            Object[] paramsObj = Arrays.stream(params)
-                    .map(s -> s.replaceAll("id=", "")
-                            .replaceAll("name=", "")
-                    ).toArray();
-            params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
-            long id = Long.parseLong(params[0]);
-
-            Department department = Department.builder()
-                    .id(id)
-                    .name(params[1])
-                    .build();
+            Department department = buildDepartment(request);
 
             departmentDao.update(department);
         } catch (DepartmentDaoException | IOException e) {

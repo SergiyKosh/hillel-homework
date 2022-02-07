@@ -16,17 +16,21 @@ import static rest.util.FieldsConst.EMPLOYEE_ID;
 public class EmployeeService {
     private final EmployeeDao employeeDao = new EmployeeDatabaseDao();
 
+    private String[] getParams(HttpServletRequest request) throws IOException {
+        int counter;
+        StringBuilder str = new StringBuilder();
+
+        while ((counter = request.getInputStream().read()) != -1) {
+            str.append((char) counter);
+        }
+
+        return str.toString().split("&");
+    }
+
     public void add(HttpServletRequest request) throws EmployeeBusinessException {
         try {
-            int counter;
-            StringBuilder str = new StringBuilder();
-
-            while ((counter = request.getInputStream().read()) != -1) {
-                str.append((char) counter);
-            }
-
-            String[] params = str.toString().split("&");
-            Object[] paramsObj = Arrays.stream(params)
+            String[] params = getParams(request);
+                    Object[] paramsObj = Arrays.stream(params)
                     .map(s -> s.replaceAll("name=", "")
                             .replaceAll("salary=", "")
                             .replaceAll("chiefId=", "")
