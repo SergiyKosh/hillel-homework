@@ -13,6 +13,22 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/employees">Employees</a>
         </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/departments">Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/department/new">Add department</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/employee/new">Add employee</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
 
@@ -29,7 +45,7 @@
     <tbody>
     <c:forEach var="employee" items="${employees}">
         <tr>
-            <td>${employee.getDepartment().getName()}</td>
+            <td>${employee.getId()}</td>
             <td>${employee.getName()}</td>
             <td>${employee.getSalary()}</td>
             <td>${employee.getChiefId()}</td>

@@ -6,7 +6,7 @@ import rest.model.entity.Employee;
 import java.util.List;
 
 public interface EmployeeDao {
-    Long add(Employee employee) throws EmployeeDaoException;
+    void add(Employee employee) throws EmployeeDaoException;
 
     void update(Employee employee) throws EmployeeDaoException;
 

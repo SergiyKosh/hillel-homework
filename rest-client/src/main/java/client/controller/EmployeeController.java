@@ -65,35 +65,8 @@ public class EmployeeController {
         return "edit";
     }
 
-    @PostMapping(url = "/employee/edit/apply")
-    public String editPostRequest(HttpServletRequest request, HttpServletResponse response) {
-        Webb updReq = Webb.create();
-
-        updReq.post("http://127.0.0.1:8080/employee/update")
-                .param(DEPARTMENT_ID_FIELD, request.getParameter(DEPARTMENT_ID_FIELD))
-                .param(ID_FIELD, request.getParameter(ID_FIELD))
-                .param(NAME_FIELD, request.getParameter(NAME_FIELD))
-                .param(SALARY_FIELD, request.getParameter(SALARY_FIELD))
-                .param(CHIEF_ID_FIELD, request.getParameter(CHIEF_ID_FIELD))
-                .ensureSuccess()
-                .asStream();
-
-        return "redirect:/employees";
-    }
-
-    @PostMapping(url = "/employee/delete")
-    public String delete(HttpServletRequest request, HttpServletResponse response) {
-        Webb updReq = Webb.create();
-
-        updReq.delete("http://127.0.0.1:8080/employee/delete")
-                .param(DEPARTMENT_ID_FIELD, request.getParameter(DEPARTMENT_ID_FIELD))
-                .param(ID_FIELD, request.getParameter(ID_FIELD))
-                .param(NAME_FIELD, request.getParameter(NAME_FIELD))
-                .param(SALARY_FIELD, request.getParameter(SALARY_FIELD))
-                .param(CHIEF_ID_FIELD, request.getParameter(CHIEF_ID_FIELD))
-                .ensureSuccess()
-                .asStream();
-
-        return "redirect:/employees";
+    @GetMapping(url = "/employee/new")
+    public String newEmployeeGet(HttpServletRequest request, HttpServletResponse response) {
+        return "add";
     }
 }

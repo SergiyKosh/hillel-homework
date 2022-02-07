@@ -11,6 +11,6 @@ public class Employee {
     private Long id;
     private String name;
     private Integer salary;
-    private Department department;
+    private long departmentId;
     private Long chiefId;
 }

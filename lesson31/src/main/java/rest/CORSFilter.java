@@ -25,6 +25,10 @@ public class CORSFilter implements Filter {
             return;
         }
 
+        if (request.getMethod().equals(HttpMethod.PUT.name())) {
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+        }
+
         chain.doFilter(request, servletResponse);
     }
 }

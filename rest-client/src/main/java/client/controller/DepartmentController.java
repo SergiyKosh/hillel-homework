@@ -47,9 +47,9 @@ public class DepartmentController {
         return "edit";
     }
 
-    @DeleteMapping(url = "http://127.0.0.1:8080/department/delete")
-    public String delete(HttpServletRequest request, HttpServletResponse response) {
-        return "redirect:/departments";
+    @GetMapping(url = "/department/new")
+    public String getAddMapping(HttpServletRequest request, HttpServletResponse response) {
+        return "add";
     }
 
 }

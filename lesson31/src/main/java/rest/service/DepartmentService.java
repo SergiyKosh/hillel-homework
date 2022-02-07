@@ -10,7 +10,6 @@ import rest.model.entity.Department;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static rest.util.FieldsConst.*;
 
@@ -32,9 +31,8 @@ public class DepartmentService {
 
             String[] params = str.toString().split("&");
             Object[] paramsObj = Arrays.stream(params)
-                    .map(s -> s.replaceAll("[a-zA-Z]", "")
-                            .replaceAll("&", "")
-                            .replaceAll("=", "")
+                    .map(s -> s.replaceAll("id=", "")
+                            .replaceAll("name=", "")
                     ).toArray();
             params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
             long id = Long.parseLong(params[0]);
@@ -60,9 +58,8 @@ public class DepartmentService {
 
             String[] params = str.toString().split("&");
             Object[] paramsObj = Arrays.stream(params)
-                    .map(s -> s.replaceAll("[a-zA-Z]", "")
-                            .replaceAll("&", "")
-                            .replaceAll("=", "")
+                    .map(s -> s.replaceAll("id=", "")
+                            .replaceAll("name=", "")
                     ).toArray();
             params = Arrays.copyOf(paramsObj, paramsObj.length, String[].class);
             long id = Long.parseLong(params[0]);
@@ -87,8 +84,7 @@ public class DepartmentService {
             }
 
             long id = Long.parseLong(
-                    str.toString().replaceAll("[a-zA-z]", "")
-                            .replaceAll("=", "")
+                    str.toString().replaceAll("id=", "")
             );
 
             departmentDao.delete(id);

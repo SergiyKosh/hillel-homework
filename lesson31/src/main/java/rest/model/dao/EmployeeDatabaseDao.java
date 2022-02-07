@@ -14,9 +14,7 @@ import static rest.util.FieldsConst.*;
 
 public class EmployeeDatabaseDao implements EmployeeDao {
     @Override
-    public Long add(Employee employee) throws EmployeeDaoException {
-        Long employeeId = null;
-
+    public void add(Employee employee) throws EmployeeDaoException {
         try (
                 Connection connection = ConnectionFactory.build().getConnection();
                 PreparedStatement ps = connection.prepareStatement(ADD_EMPLOYEE)
@@ -34,17 +32,9 @@ public class EmployeeDatabaseDao implements EmployeeDao {
 
             ps.executeUpdate();
 
-            ResultSet gk = ps.getGeneratedKeys();
-
-            if (gk.next()) {
-                employeeId = gk.getLong("id");
-            }
-
         } catch (SQLException e) {
             throw new EmployeeDaoException(e);
         }
-
-        return employeeId;
     }
 
     @Override

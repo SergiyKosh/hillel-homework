@@ -26,7 +26,7 @@ public class EmployeeController {
         return service.get(request);
     }
 
-    @PutMapping(url = "/employees")
+    @PutMapping(url = "/employees/new")
     public String save(HttpServletRequest request, HttpServletResponse response) throws EmployeeBusinessException {
         service.add(request);
         return "redirect:/http://localhost:8081/employees";
