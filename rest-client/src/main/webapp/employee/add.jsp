@@ -17,8 +17,8 @@
             data: $('#put-form').serialize()
         }).done(function (data) {
             console.log(data);
-            window.location.href = '/employees';
         });
+        window.location.href = '/employees';
     }
 </script>
 

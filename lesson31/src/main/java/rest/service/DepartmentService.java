@@ -69,9 +69,9 @@ public class DepartmentService {
                 str.append((char) counter);
             }
 
-            long id = Long.parseLong(
-                    str.toString().replaceAll("id=", "")
-            );
+            String[] params = str.toString().split("&");
+
+            long id = Long.parseLong(params[0].replaceAll("id=", ""));
 
             departmentDao.delete(id);
         } catch (DepartmentDaoException e) {

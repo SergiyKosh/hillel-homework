@@ -100,10 +100,9 @@ public class EmployeeService {
                 str.append((char) counter);
             }
 
-            long id = Long.parseLong(
-                    str.toString().replaceAll("[a-zA-z]", "")
-                            .replaceAll("=", "")
-            );
+            String[] params = str.toString().split("&");
+
+            long id = Long.parseLong(params[0].replaceAll("id=", ""));
             employeeDao.delete(id);
         } catch (EmployeeDaoException | IOException e) {
             throw new EmployeeBusinessException(e);

@@ -17,8 +17,8 @@
             data: $('#delete-form').serialize()
         }).done(function (data) {
             console.log(data);
-            window.location.href = '/departments'
         });
+        window.location.href = '/departments';
     }
 </script>
 
@@ -53,7 +53,6 @@
     <th scope="row">Id</th>
     <th scope="row">Department name</th>
     <td></td>
-    <td></td>
     </thead>
     <tbody>
     <c:forEach var="department" items="${departments}">
@@ -61,12 +60,6 @@
             <td>${department.getId()}</td>
             <td>${department.getName()}</td>
             <td><a href="/department/edit?id=${department.getId()}" class="btn btn-link">Edit</a></td>
-            <td>
-                <form id="delete-form" name="delete-form">
-                    <input type="hidden" id="id" name="id" value="${department.getId()}">
-                    <button type="button" onclick="deleteData()">delete</button>
-                </form>
-            </td>
         </tr>
     </c:forEach>
     </tbody>

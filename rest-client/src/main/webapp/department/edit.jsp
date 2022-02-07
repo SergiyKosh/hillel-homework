@@ -6,7 +6,21 @@
     <title>Edit department</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
+
+<script type="application/javascript">
+    function deleteData() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://127.0.0.1:8080/department/delete",
+            data: $('#form').serialize()
+        }).done(function (data) {
+            console.log(data);
+        });
+        window.location.href = '/departments';
+    }
+</script>
 
 <header>
     <nav class="navbar navbar-dark bg-dark">
@@ -36,7 +50,7 @@
 </header>
 
 <body>
-<form method="post" action="http://localhost:8080/department/update">
+<form method="post" id="form" action="http://localhost:8080/department/update">
     <div class="form-floating mt-2">
         <div class="col-md">
             <div class="form-floating">
@@ -52,7 +66,8 @@
                 <label for="floatingInputGrid">Name</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Primary</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="button" onclick="deleteData()">delete</button>
     </div>
 </form>
 </body>
