@@ -23,26 +23,29 @@
 </script>
 
 <header>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/employees">Employees</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/departments">Departments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/employees">Employees</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/employee/new">Add employee</a>
-                </li>
-            </ul>
+            <a class="navbar-brand" href="/">CRUD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employees">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/departments">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="/department/new">Add department</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employee/new">Add employee</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
